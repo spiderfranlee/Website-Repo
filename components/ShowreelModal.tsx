@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { galleryImages } from './Gallery';
+import { galleryImages } from './Gallery.tsx';
 
 interface ShowreelModalProps {
   isOpen: boolean;

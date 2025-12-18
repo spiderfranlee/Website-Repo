@@ -1,16 +1,16 @@
 
 import React from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import ArtistSection from './components/ArtistSection';
-import PiercingPriceList from './components/PiercingPriceList';
-import Gallery from './components/Gallery';
-import StudioSection from './components/StudioSection';
-import FAQ from './components/FAQ';
-import BookingForm from './components/BookingForm';
-import Footer from './components/Footer';
-import ChatBookingAgent from './components/ChatBookingAgent';
+import Header from './components/Header.tsx';
+import Hero from './components/Hero.tsx';
+import About from './components/About.tsx';
+import ArtistSection from './components/ArtistSection.tsx';
+import PiercingPriceList from './components/PiercingPriceList.tsx';
+import Gallery from './components/Gallery.tsx';
+import StudioSection from './components/StudioSection.tsx';
+import FAQ from './components/FAQ.tsx';
+import BookingForm from './components/BookingForm.tsx';
+import Footer from './components/Footer.tsx';
+import ChatBookingAgent from './components/ChatBookingAgent.tsx';
 
 const App: React.FC = () => {
   return (

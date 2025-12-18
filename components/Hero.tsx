@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { galleryImages } from './Gallery';
-import ShowreelModal from './ShowreelModal';
+import { galleryImages } from './Gallery.tsx';
+import ShowreelModal from './ShowreelModal.tsx';
 
 const showreelImages = [
   "https://static.wixstatic.com/media/da8de275022143b583863b84eca02538.jpg/v1/fill/w_1226,h_715,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/da8de275022143b583863b84eca02538.jpg",

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import Logo from './Logo';
+import Logo from './Logo.tsx';
 
 const BookingForm: React.FC = () => {
   const [service, setService] = useState<'tattoo' | 'piercing' | 'other' | null>(null);
