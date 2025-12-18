@@ -24,7 +24,6 @@
       position: relative;
     }
     
-    /* Granite Style Texture Overlay */
     body::before {
       content: "";
       position: fixed;
@@ -36,10 +35,6 @@
       opacity: 0.05;
       pointer-events: none;
       z-index: 9999;
-    }
-
-    .granite-bg {
-      background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
     }
 
     .glass {
@@ -62,36 +57,21 @@
       animation: slow-spin 30s linear infinite;
     }
 
-    @keyframes snow {
-      0% { background-position: 0px 0px, 0px 0px, 0px 0px; }
-      100% { background-position: 500px 1000px, 400px 400px, 300px 300px; }
-    }
-    .snow-effect {
-      background-image: url('https://www.transparenttextures.com/patterns/snow.png');
-      background-repeat: repeat;
-      animation: snow 20s linear infinite;
-    }
-
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #000;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #333;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #444;
-    }
-    
     .logo-font {
       font-family: 'Playfair Display', serif;
     }
 
     .invert-calendar::-webkit-calendar-picker-indicator {
       filter: invert(1);
+    }
+    
+    .faq-content p {
+      margin-bottom: 1.5rem;
+    }
+    .faq-content ul {
+      margin-bottom: 1.5rem;
+      list-style-type: disc;
+      padding-left: 1.5rem;
     }
   </style>
 
@@ -100,7 +80,7 @@
   "imports": {
     "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
     "react": "https://esm.sh/react@^19.2.3",
-    "react-dom": "https://esm.sh/react-dom@^19.2.3",
+    "react-dom": "https://esm.sh/react-dom@^19.2.3/client",
     "react-dom/client": "https://esm.sh/react-dom@^19.2.3/client",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react/": "https://esm.sh/react@^19.2.3/"
@@ -130,14 +110,6 @@
       "https://static.wixstatic.com/media/cdf61c_a6c00cad31e74a0aa79a1180a35c48bb~mv2.jpg/v1/fill/w_347,h_616,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/cdf61c_a6c00cad31e74a0aa79a1180a35c48bb~mv2.jpg",
       "https://static.wixstatic.com/media/cdf61c_76afafe98f1049d98a39bf81e4029ff6~mv2_d_4608_3072_s_4_2.jpg/v1/fill/w_924,h_616,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/cdf61c_76afafe98f1049d98a39bf81e4029ff6~mv2_d_4608_3072_s_4_2.jpg",
       "https://static.wixstatic.com/media/cdf61c_521caf004d5b40a8be4bdbe263dd21f9~mv2_d_3072_4608_s_4_2.jpg/v1/fill/w_411,h_616,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/cdf61c_521caf004d5b40a8be4bdbe263dd21f9~mv2_d_3072_4608_s_4_2.jpg",
-    ];
-
-    const studioImages = [
-      "https://static.wixstatic.com/media/cdf61c_c96a886ae9af4426866b62fa2af7bd5f~mv2_d_6016_4016_s_4_2.jpg/v1/fill/w_502,h_324,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_c96a886ae9af4426866b62fa2af7bd5f~mv2_d_6016_4016_s_4_2.jpg",
-      "https://static.wixstatic.com/media/cdf61c_927ee543586c44adb9664067ac02d6c6~mv2_d_4608_3072_s_4_2.jpg/v1/fill/w_1184,h_784,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_927ee543586c44adb9664067ac02d6c6~mv2_d_4608_3072_s_4_2.jpg",
-      "https://static.wixstatic.com/media/cdf61c_d776859552d34be28caf83b210a0e87a~mv2_d_6016_4016_s_4_2.jpg/v1/fill/w_502,h_328,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_d776859552d34be28caf83b210a0e87a~mv2_d_6016_4016_s_4_2.jpg",
-      "https://static.wixstatic.com/media/cdf61c_3e45b408f9cf44679f7bff0f98705c3e~mv2_d_4608_3072_s_4_2.jpg/v1/fill/w_1184,h_784,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_3e45b408f9cf44679f7bff0f98705c3e~mv2_d_4608_3072_s_4_2.jpg",
-      "https://static.wixstatic.com/media/cdf61c_9e1d489aeee548d384e06c5ccc003685~mv2_d_6016_4016_s_4_2.jpg/v1/fill/w_502,h_326,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_9e1d489aeee548d384e06c5ccc003685~mv2_d_6016_4016_s_4_2.jpg"
     ];
 
     // --- COMPONENTS ---
@@ -193,18 +165,6 @@
                 </div>
               </nav>
             </div>
-            <div className="hidden 2xl:flex items-center gap-16 border-x border-white/5 px-16">
-               <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-3 group cursor-default">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)]"></span>
-                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/80 group-hover:text-white transition-colors">Custom Tattoos</span>
-                </div>
-                <div className="flex items-center gap-3 group cursor-default">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)]"></span>
-                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/80 group-hover:text-white transition-colors">Body Piercing</span>
-                </div>
-              </div>
-            </div>
             <div className="flex items-center gap-8">
               <a href="#quote-form" className="hidden md:block text-[10px] font-black uppercase tracking-[0.25em] hover:text-red-600 transition-colors relative group">
                 Request a Quote
@@ -226,10 +186,8 @@
       useEffect(() => {
         if (isOpen) {
           document.body.style.overflow = 'hidden';
-          if (audioRef.current) { audioRef.current.volume = 0.3; audioRef.current.play().catch(() => {}); }
         } else {
           document.body.style.overflow = 'unset';
-          if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
         }
       }, [isOpen]);
 
@@ -243,44 +201,291 @@
 
       return (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95 backdrop-blur-2xl">
-          <audio ref={audioRef} src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop />
-          <button onClick={onClose} className="absolute top-8 right-8 z-[210] text-white/50 hover:text-white transition-all"><svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M6 18L18 6M6 6l12 12" /></svg></button>
-          <div className="absolute top-0 left-0 w-full h-1 bg-white/10 z-[210]"><div className="h-full bg-red-600 transition-all duration-[4000ms] ease-linear" style={{ width: `${((currentIndex + 1) / galleryImages.length) * 100}%` }}></div></div>
+          <button onClick={onClose} className="absolute top-8 right-8 z-[210] text-white/50 hover:text-white transition-all">
+            <svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <div className="absolute top-0 left-0 w-full h-1 bg-white/10 z-[210]">
+            <div 
+              className="h-full bg-red-600 transition-all duration-[4000ms] ease-linear" 
+              style={{ width: `${((currentIndex + 1) / galleryImages.length) * 100}%` }}
+            ></div>
+          </div>
           <div className="relative w-full h-full flex items-center justify-center p-8 md:p-20 overflow-hidden">
             {galleryImages.map((src, idx) => (
               <div key={src} className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ${idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-110 pointer-events-none'}`}>
-                <div className="relative max-w-5xl w-full h-[70vh] md:h-[80vh] group">
-                  <img src={src} className="w-full h-full object-contain drop-shadow-[0_35px_35px_rgba(255,0,0,0.15)] grayscale-[20%] group-hover:grayscale-0 transition-all duration-700" />
-                  <div className="absolute -bottom-12 md:-bottom-20 left-0 w-full text-center"><h2 className="text-4xl md:text-8xl font-black uppercase tracking-tighter text-white/20 select-none animate-pulse">{titles[idx % titles.length]}</h2></div>
+                <div className="relative max-w-5xl w-full h-[70vh] md:h-[80vh]">
+                  <img src={src} className="w-full h-full object-contain drop-shadow-[0_35px_35px_rgba(255,0,0,0.15)] grayscale-[20%]" />
+                  <div className="absolute -bottom-12 md:-bottom-20 left-0 w-full text-center">
+                    <h2 className="text-4xl md:text-8xl font-black uppercase tracking-tighter text-white/20 select-none animate-pulse">
+                      {titles[idx % titles.length]}
+                    </h2>
+                  </div>
                 </div>
               </div>
             ))}
             <div className="absolute inset-x-0 bottom-12 flex justify-center items-center gap-12 z-[210]">
-              <button onClick={() => setIsPlaying(!isPlaying)} className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all shadow-2xl scale-110">{isPlaying ? <svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> : <svg className="h-8 w-8 translate-x-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>}</button>
+              <button onClick={() => setIsPlaying(!isPlaying)} className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all shadow-2xl scale-110">
+                {isPlaying ? <svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> : <svg className="h-8 w-8 translate-x-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>}
+              </button>
             </div>
           </div>
         </div>
       );
     };
 
-    const Hero = () => {
+    const Hero = ({ onOpenShowreel }) => {
       const showreelImages = ["https://static.wixstatic.com/media/da8de275022143b583863b84eca02538.jpg/v1/fill/w_1226,h_715,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/da8de275022143b583863b84eca02538.jpg", "https://static.wixstatic.com/media/cdf61c_518d60c578e442d1a79318eac9982466~mv2_d_1920_1283_s_2.jpg/v1/fill/w_1226,h_715,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_518d60c578e442d1a79318eac9982466~mv2_d_1920_1283_s_2.jpg", "https://static.wixstatic.com/media/cdf61c_2583d0666e9240d38150153f148bb19a~mv2_d_1920_1280_s_2.jpg/v1/fill/w_1226,h_715,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_2583d0666e9240d38150153f148bb19a~mv2_d_1920_1280_s_2.jpg"];
       const [currentIndex, setCurrentIndex] = useState(0);
       const [galleryIndex, setGalleryIndex] = useState(0);
-      const [isShowreelOpen, setIsShowreelOpen] = useState(false);
 
       useEffect(() => {
-        const showreelTimer = setInterval(() => setCurrentIndex((prev) => (prev + 1) % showreelImages.length), 5000);
+        const timer = setInterval(() => setCurrentIndex((prev) => (prev + 1) % showreelImages.length), 5000);
         const galleryTimer = setInterval(() => setGalleryIndex((prev) => (prev + 1) % galleryImages.length), 3000);
-        return () => { clearInterval(showreelTimer); clearInterval(galleryTimer); };
+        return () => { clearInterval(timer); clearInterval(galleryTimer); };
       }, []);
 
       return (
-        <section className="relative min-h-screen w-full flex flex-col justify-center lg:justify-between px-8 lg:px-24 py-32 overflow-hidden bg-black">
-          <div className="absolute inset-0 z-0">{showreelImages.map((img, idx) => (<div key={idx} className={`absolute inset-0 transition-opacity duration-1000 ${idx === currentIndex ? 'opacity-60' : 'opacity-0'}`}><img src={img} className="w-full h-full object-cover" /></div>))}<div className="absolute inset-0 bg-gradient-to-r from-black via-black/30 to-transparent" /></div>
-          <div className="relative z-10 max-w-2xl mb-12 lg:mb-0 lg:pt-32"><h2 className="text-4xl md:text-6xl font-medium leading-tight mb-8">Custom Tattoo Designs.<br/>Telling Your Story.</h2><a href="#quote-form" className="group flex flex-col items-start gap-2"><span className="text-lg font-bold hover:text-red-600 transition-colors uppercase tracking-widest">Request a Quote</span><div className="w-12 h-[2px] bg-white group-hover:w-20 group-hover:bg-red-600 transition-all duration-300"></div></a></div>
-          <div className="relative z-20 self-end w-full max-w-[580px]"><button onClick={() => setIsShowreelOpen(true)} className="w-full glass px-8 py-8 md:px-10 md:py-10 flex items-center justify-between group rounded-[2rem] shadow-2xl text-left"><div className="flex items-center gap-6 md:gap-8"><div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/40 flex items-center justify-center transition-transform group-hover:scale-110"><svg className="h-4 w-4 fill-white translate-x-[1px]" viewBox="0 0 24 24"><path d="M7 6v12l10-6z"/></svg></div><span className="text-2xl md:text-3xl font-bold tracking-tight">Play Showreel</span></div><div className="hidden sm:block w-32 md:w-36 h-20 md:h-24 bg-zinc-800 rounded-xl overflow-hidden relative border border-white/20 shadow-xl"><img src={galleryImages[galleryIndex]} className="w-full h-full object-cover grayscale opacity-70 group-hover:opacity-100 transition-all duration-700" /><div className="absolute inset-0 flex items-center justify-center bg-black/20"><span className="text-[10px] font-black uppercase text-white tracking-[0.1em] drop-shadow-lg">GALLERY</span></div></div></button></div>
-          <ShowreelModal isOpen={isShowreelOpen} onClose={() => setIsShowreelOpen(false)} />
+        <section className="relative min-h-screen w-full flex flex-col justify-center px-8 lg:px-24 bg-black overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            {showreelImages.map((img, idx) => (
+              <div key={idx} className={`absolute inset-0 transition-opacity duration-1000 ${idx === currentIndex ? 'opacity-60' : 'opacity-0'}`}>
+                <img src={img} className="w-full h-full object-cover" />
+              </div>
+            ))}
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/30 to-transparent" />
+          </div>
+          <div className="relative z-10 max-w-2xl lg:pt-32">
+            <h2 className="text-4xl md:text-6xl font-medium leading-tight mb-8">Custom Tattoo Designs.<br/>Telling Your Story.</h2>
+            <a href="#quote-form" className="group flex flex-col items-start gap-2">
+              <span className="text-lg font-bold hover:text-red-600 transition-colors uppercase tracking-widest">Request a Quote</span>
+              <div className="w-12 h-[2px] bg-white group-hover:w-20 group-hover:bg-red-600 transition-all duration-300"></div>
+            </a>
+          </div>
+
+          <div className="relative z-20 self-end w-full max-w-[580px] mt-12 md:mt-24">
+            <button 
+              onClick={onOpenShowreel}
+              className="w-full glass px-8 py-8 md:px-10 md:py-10 flex items-center justify-between group cursor-pointer transition-all hover:bg-white/10 rounded-[2rem] shadow-2xl text-left"
+            >
+              <div className="flex items-center gap-6 md:gap-8">
+                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/40 flex items-center justify-center transition-transform group-hover:scale-110">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 fill-white translate-x-[1px]" viewBox="0 0 24 24">
+                    <path d="M7 6v12l10-6z"/>
+                  </svg>
+                </div>
+                <span className="text-2xl md:text-4xl font-bold tracking-tight text-white/90 group-hover:text-white transition-colors">Play Showreel</span>
+              </div>
+              <div className="hidden sm:block w-32 md:w-36 h-20 md:h-24 bg-zinc-800 rounded-xl overflow-hidden relative border border-white/20 shadow-xl group-hover:border-white/40 transition-colors">
+                <img 
+                  src={galleryImages[galleryIndex]} 
+                  className="w-full h-full object-cover grayscale opacity-70 group-hover:opacity-100 transition-all duration-700" 
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                  <span className="text-[10px] font-black uppercase text-white tracking-[0.1em] drop-shadow-lg">GALLERY</span>
+                </div>
+              </div>
+            </button>
+          </div>
+        </section>
+      );
+    };
+
+    const PriceAccordion = ({ title, items }) => {
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <div className="border-b border-white/5 last:border-0 overflow-hidden">
+          <button onClick={() => setIsOpen(!isOpen)} className="w-full py-8 flex items-center justify-between text-left group transition-all">
+            <h4 className="text-sm font-black uppercase tracking-[0.3em] text-white/50 group-hover:text-red-600">{title}</h4>
+            <span className={`text-2xl transition-transform duration-500 ${isOpen ? 'rotate-45 text-red-600' : 'text-white/20'}`}>+</span>
+          </button>
+          <div className={`transition-all duration-700 ease-in-out ${isOpen ? 'max-h-[3000px] opacity-100 pb-12' : 'max-h-0 opacity-0 pointer-events-none'}`}>
+            <div className="grid gap-6">
+              {items.map((item, idx) => (
+                <div key={idx} className="glass p-8 rounded-3xl border border-white/5 hover:border-red-600/30 transition-all space-y-4">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <h5 className="text-xs font-black uppercase tracking-widest text-white leading-relaxed">{item.n}</h5>
+                    <span className="text-xl font-black text-red-600 whitespace-nowrap">{item.p}</span>
+                  </div>
+                  {item.d && <div className="text-[11px] text-gray-400 leading-relaxed font-medium italic space-y-2">{item.d.split('\n').map((line, i) => <p key={i}>{line}</p>)}</div>}
+                  {item.note && <p className="text-[9px] font-black uppercase tracking-widest text-red-600/70 pt-2 border-t border-red-600/10">! {item.note}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const PiercingPriceList = () => {
+      const piercingData = {
+        ear: [
+          { n: "Ear Lobes Piercing Gold (for Pair Studs)", p: "€30 to €35", d: "Depending on jewelry selection." },
+          { n: "Ear Lobes 316 surgical steel (for Pair Studs)", p: "€30 to €35", d: "Depending on jewelry selection." },
+          { n: "Ear Lobe Piercing (Stud)", p: "€25.00" },
+          { n: "Ear Lobe Piercing (with ring)", p: "€30.00" },
+          { n: "Ear Lobe Piercing (with barbell)", p: "€35.00" },
+          { n: "Helix, Forward Helix, Anti Helix or Snug", p: "€30 to €35", d: "The Helix, Forward Helix & Anti Helix or Snug -- takes longer to heal than the ear lobe and is better pierced with a needle than an ear piercing gun. The ear lobe can be pierced with an ear piercing gun using a shed or pierced with a needle for a ring. Anesthetics can be used for piercing around the ear. Healing time for the ear is around 6 to 8 weeks." },
+          { n: "Ear Piercing, Tragus, Rook, Etc... (with ring)", p: "€30.00", d: "These piercing have greater individuality than the pinna or the earlobe, The Tragus -- being the most popular of the three. Because of the placement of the piercing in the ear, these piercing can not be performed by a gun, but must be pierced by a needle. Anesthetics can sometime be used, although it is preferable not to on the Rook and Conch. The Rook, Conch, Daith, Tragus and Anti Tragus can all be pierced with rings of 1mm curved barbells. Other options are available. Healing times are similar to the rest of the ear around 6 weeks." },
+          { n: "Ear Piercing, Tragus, Rook, Conch, Etc... (with barbell)", p: "€35.00" },
+          { n: "Industrial Piercing (with barbell)", p: "€60.00", d: "An Industrial Piercing -- as typically found in the upper cartilage of the ear, is made up of two piercings connected with a bar. This type of piercing is not an easy to handle. It could be very painful and prone to infections. The best way to avoid any risks, is to follow your piercer's after care advice. Typically, this piercing heals for about 3-4 weeks to six months. You should be careful during the healing time." }
+        ],
+        facial: [
+          { n: "Eyebrow Piercing (with ring)", p: "€35.00", d: "The Eyebrow Piercing -- has become very popular over the past few years and it can be used to good aesthetic effect. The area can be pierced with a BCR or a Barbell and usually pierced at a lower gauge than other areas of the body due to swelling and possible bruising around the eye. Please bear in mind that eyebrow piercing have a tendency to migrate so the usual for retaining the piercing is 6 months to 2 years." },
+          { n: "Eyebrow Piercing (with barbell)", p: "€40.00" },
+          { n: "Nose Piercing (with jewel L- shaped stud)", p: "€35.00", d: "Nostrils -- should not be pierced with a gun ever! This is because of risks of cross contamination, guns can not be autoclaved or kept sterile, therefore there is a risk. The studs are also not long enough to accommodate the tissue of a nostril and even without the butterfly they can scratch and tear newly forming tissue, aside from this they are unsightly. The nostril is best pierced with an anesthetic and a needle using a ball closure ring or an L-shaped stud. Healing time is around 6 weeks, but they can shrink very quickly so change jewelry immediately and never leave jewelry out for any length of time for 6 to 12 months." },
+          { n: "Nose Piercing (with ring)", p: "€30.00" },
+          { n: "Septum Piercing (with ring or horse shoe barbell)", p: "€40.00", d: "The Septum Piercing -- is placed through the cartilage wall in the middle of the nose. In recent years, this piercing is has drastically increased in popularity. I believe I know the reason the septum piercing has caught on so well! Consider this: septum jewelry is highly noticeable when you want it on show. Slap bang in the middle of your face. Yet it is also easily hidden! The septum piercing looks badass and edgy. Although with a smaller ring it can look strangely delicate and beautiful! This piercing suits most face and nose shapes. It does not alter the appearance of the nose in the long run. Once you have your septum pierced complete healing can take about 6 to 8 months." },
+          { n: "Bridge Piercing between eyes (with straight barbell)", p: "€40.00", d: "Bridge Piercing -- is a kind of facial piercing, done horizontally in the bridge region of the nose, between the eyes. This form of piercing is also known as “Earl” or “Erl” piercing after Earl Van Aken, who was the first to have it done on him. the vertical bridge piercing is a surface piercing, There is also a high risk of scarring when the jewellery is removed. It takes about a span of 8 to 12 weeks to heal externally. However, internal healing may span between 4 to 6 months or even last longer, depending on the aftercare taken." }
+        ],
+        oral: [
+          { n: "Lip Piercing Monroe or Madonna (with bar)", p: "€35.00", d: "Monroe Piercing -- A horizontal upper lip piercing placed through the skin above the right or left side of the upper lip. Monroe piercings -- which are also called Madonna piercings or Crawford piercings -- get their name from the way they mimic these stars' upper lip moles.\n\nThe Lip Piercing -- is pierced anywhere through the lips and can accommodate a ring or a stud which has a flat plate. The healing takes approximately 4 to 5 weeks. Swelling will occur for 2 to 3 weeks." },
+          { n: "Lip Piercing Monroe or Madonna (with single jewel bar)", p: "€40.00" },
+          { n: "Labret (with ring)", p: "€35.00", d: "Labret Piercing -- is the same type of piercing as the lip piercing but is centered on the lower part of the lip or from side to side. Snake Bites - This pair of horizontal lower lip piercings placed through the left and right sides of the lower lip gets its name from the way the two piercings mimic the bite marks a snake's fangs would make. You can wear labret studs, captive rings, circular barbells, or lip loop labrets in snake bites piercings. The healing takes approximately 4 to 5 weeks. Swelling will occur for 2 to 3 weeks." },
+          { n: "Labret (with barbell)", p: "€40.00" },
+          { n: "Snake Bites (×2 jewelry if pierced on same day)", p: "€60.00" },
+          { n: "Smiley Piercing (with ring or horse shoe barbell)", p: "€50.00", d: "A lip frenulum piercing -- is a body piercing through the frenulum of either the upper or lower lip. A piercing through the upper lip frenulum is sometimes called a scrumper, or a smiley, because it can be visible when the wearer smiles. Opposingly, the piercing through the lower lip frenulum is sometimes referred to as a frowny. Remember that healing time is going to be around 4 to 12 weeks." },
+          { n: "Tongue Piercing (with barbell)", p: "€45.00", d: "Increasingly popular for sexual and aesthetic all reasons ……… a must for men!! Tongue Piercing -- is pierced with a barbell long enough to accommodate swelling and will need to be changed down to a shorter barbell after 2 weeks. Healing time takes 3 to 4 weeks but is always prone to shrinking so keep jewelry in at all times. Limited jewelry can be worn." }
+        ],
+        body: [
+          { n: "Navel Piercing (with ring)", p: "€30.00", d: "The Navel Piercing -- is one of the most aesthetically pleasing of all piercing and its popularity continues to grow. Its purpose is purely visual and because of this there is a wide range of jewelry available with which to decorate it after it has healed. We offer a free jewelry, sterilizing and changing service when the navel has healed. Healing times are around 2 to 9 months, and care attention must be paid to the navel through out this time. Navels can initially be pierced with a ring or navel bananabell." },
+          { n: "Navel Piercing (with no jewel banana bell)", p: "€35.00" },
+          { n: "Navel Piercing (with single jewel banana bell)", p: "€40.00" },
+          { n: "Surface Piercing (with bar or ring)", p: "€35.00", d: "Surface piercings -- are any body piercings that take place on the surface sewn into the body through areas which are not particularly concave or convex, where the piercing canal transverses a surface flap of skin, rather than running completely through a piece of body tissue from one side to another. A surface bar follows the plane of skin, while a standard piercing is pierced through the plane. Sometimes surface piercings are difficult to heal, because, as the body rejects the body jewelry as a foreign object, the jewelry is pushed to the surface, causing the piercing to grow out (also called rejection). Proper placement and jewelry selection by an experienced body piercer can help alleviate this problem. A well done surface can last anywhere between 3 months, several years or indefinitely." },
+          { n: "Nipple Piercing (with ring......Both: € 70.00)", p: "€40.00", d: "In Roman times Nipple Piercing -- rings were worn as a sign of virility and courage, now the piercing, is seen as a sexual and visually attractive piercing. It is usually pierced at the base of the nipple where it joins the areola. Nipple Piercing can be pierced horizontally, vertically or diagonally. Healing times are around 2 to 6 months.", note: "Notice: Strictly over 18's only." },
+          { n: "Nipple Piercing (with barbell Both: € 80.00)", p: "€45.00", note: "Notice: Strictly over 18's only." }
+        ],
+        genital_female: [
+          { n: "Clitorial Hood (with ring or with barbell)", p: "€120.00", d: "A brilliant Clitorial Hood Piercing -- (guess what sex we are?!) Healing time is variable 2 to 8 weeks, this piercing can be done vertically or horizontally. Safer than clitoris piercing and just as good.", note: "Strictly over 18's only." },
+          { n: "Labia Inner or Outer Labia (with ring or with barbell)", p: "€120.00", d: "Inner Labia -- mainly aesthetical and psychological! Heal very quickly indeed only 1 to 2 weeks. Its best to use rings to avoid swelling barbells are comfortable when healed, various jewelry can be worn, Outer Labia is like Inner Labia piercing they are mostly aesthetical, but have a longer healing time of 6 to 8 weeks. Positioning should be carefully chosen as discomfort may occur during everyday activities.", note: "Strictly over 18's only." },
+          { n: "Christina Piercing (with curved barbell or surface bar)", p: "€120.00", d: "A Christina piercing -- also known as a Venus piercing, is located where the outer labia meet, below the pubic mound. It has a high rejection rate and is anatomy dependant. It was named after the first recipient in the 1990s. The piercing usually heals in 3 to 4 months.", note: "Strictly over 18's only." }
+        ],
+        genital_male: [
+          { n: "Prince Albert (with ring or PTFE bar)", p: "€120.00", d: "Sported by the man himself... A Prince Albert Piercing -- which can heighten sensations and looks incredible. Can be stretched up easily, heals well approximately 4 weeks. Interesting jewelry can be worn. Blood loss can occur during and after piercing.", note: "Strictly over 18's only." },
+          { n: "Foreskin (with ring or with barbell)", p: "€120.00", d: "If used correctly the Foreskin Piercing -- can enhance your partners sensation. PTFE plastic is best to heal it with for a few weeks. they are easy to care for and they heal very quickly usually in 4 to 6 weeks.", note: "Strictly over 18's only." },
+          { n: "Frenum (with ring or with barbell)", p: "€120.00", d: "A good ‘starter’ genital Frenum Piercing -- easily pierced and not painful with anesthetic. Heals in 3 weeks. Limited jewelry and heightened sensations.", note: "Strictly over 18's only." },
+          { n: "Hafada (with ring or with barbell)", p: "€120.00", d: "Hafada Piercings -- are aesthetical only and have a fairly quick rate of healing 5 to 6 weeks, easy to stretch up to wear thicker jewelry. The hafada can be unexpected so sometimes PTFE plastic is advised while it heals.", note: "Strictly over 18's only." },
+          { n: "Guiche (with ring or with barbell)", p: "€120.00", d: "Guiche Piercing -- are aesthetical only and have a fairly quick rate of healing 5 to 6 weeks, easy to stretch up to wear thicker jewelry. The guiche can be uncomfortable so sometimes PTFE plastic is advised while it heals.", note: "Strictly over 18's only." }
+        ]
+      };
+
+      return (
+        <section id="piercing" className="py-24 px-8 lg:px-24 bg-black relative scroll-mt-32">
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-24 border-l-2 border-red-600 pl-8">
+              <h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">The Detailed Guide</h2>
+              <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Body Piercing Price List</h3>
+              <p className="text-sm font-bold text-gray-400 mt-4 italic max-w-xl">
+                All Prices include jewelry that is appropriate for initial healing.<br/>
+                <span className="text-white">"any other piercing that is not in this price list which you would like to have..... just ask for it."</span>
+              </p>
+            </div>
+
+            <div className="bg-zinc-950 p-12 rounded-[3rem] border border-white/5 mb-24 relative overflow-hidden group">
+               <div className="relative z-10 space-y-6">
+                 <h4 className="text-xl font-black uppercase tracking-tight">Isn't your body worth quality jewelry?</h4>
+                 <p className="text-xs text-gray-400 leading-relaxed font-medium max-w-3xl italic">
+                   Please Note is what you pay is what you get.
+                 </p>
+                 <p className="text-xs text-gray-500 leading-relaxed font-medium max-w-3xl">
+                   Jewelry prices can change from time to time depending on the jewelry company the standard jewelry is ordered from. All our jewelry is AMERICAN made and is of the highest quality of man made. All our jewelry is guaranteed for life to not break, tarnish, or crack. We will not put in BAD cheap jewelry that is made in China or Japan which are higher in nickel cause reactions or take longer to heal. Many people have found this out when they finally come to us and have quality jewelry placed in there piercings. In the long run if you don’t start with quality jewelry it will cost you more.
+                 </p>
+                 <p className="text-[10px] font-black uppercase tracking-[0.4em] text-red-600 pt-4 border-t border-red-600/20">SO STAY SAFE IT'S YOUR BODY.</p>
+               </div>
+            </div>
+
+            <div className="max-w-4xl mx-auto space-y-4">
+              <PriceAccordion title="Ear Piercings" items={piercingData.ear} />
+              <PriceAccordion title="Facial Piercings" items={piercingData.facial} />
+              <PriceAccordion title="Oral Piercings" items={piercingData.oral} />
+              <PriceAccordion title="Body & Surface Piercings" items={piercingData.body} />
+              <PriceAccordion title="Female Genital Piercings" items={piercingData.genital_female} />
+              <PriceAccordion title="Male Genital Piercings" items={piercingData.genital_male} />
+            </div>
+
+            <div className="mt-24 pt-12 border-t border-white/10 text-center">
+              <div className="inline-block glass px-10 py-6 rounded-2xl border border-red-600/20">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-red-600 mb-2">Notice for Genital Piercings</p>
+                <p className="text-[10px] text-gray-400 font-bold max-w-md mx-auto leading-relaxed">
+                  If you are thinking about getting a genital piercing, please no alcohol the night before. Alcohol thins the blood and increases the risk of bleeding and bruising.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    const FAQ = () => {
+      const [activeTab, setActiveTab] = useState('tattoo');
+      const tattooFaqs = [
+        { q: "Does It Hurt?", a: "Yes it does. But not as much as some people might like you to believe, as after a short period of time your body’s natural pain-killers (endorphins), kick in and make things much more manageable. How long these endorphins last usually defines your natural ‘limit’ as to how long a tattoo session you can handle (usually between 2-3 hours), after this time you will tend to become very uncomfortable.\n\nThe pain of a tattoo is often likened to a mild burning sensation or a cat scratch. However, the real factor as to how much a tattoo hurts is really down to where you intend to get it. Any area directly over bone will be particularly sensitive; this includes ribs, feet, hands, head, and pelvis to name a few. If you are looking for a less painful spot, then you should consider an area protected by a large muscle; such as the fore-arm, upper-arm, shoulder, calf and thigh. That being said, everyone’s pain threshold varies, so there are no hard and fast answers to this question." },
+        { q: "How long does a tattoo take?", a: "Tattooing is not a quick process, nor should it be rushed as you will be living with the results permanently. An averagely complex piece of work about the size of the back of your hand, usually takes about two hours to complete. Larger or more complex pieces can take tens of hours, and will require several sittings to complete. Usually appointments are made in multiples of hours, but some smaller pieces may only require a thirty minute appointment." },
+        { q: "How much does it cost?", a: "When it comes to tattooing, you get what you pay for. Do not expect a good artist to come cheap, and if that’s the way you go, you could end up spending a great deal more further down the line, when you have to pay for a large cover-up or laser removal. Save your money until you can afford what you really want! Don’t settle, just because you are impatient to get some ink, this decision will be with you for a long time\n\nAt Skin Graphics prices are due to size & detail of the tattoo you wish for large pieces we are happy to do a payment plan with you where you can pay for the tattoo you really want gradually until you have paid for it." },
+        { q: "Can I use numbing cream or pain killers?", a: "You can use numbing cream, but very few tattoo studios will recommend it for several reasons. Firstly, it needs to be applied around thirty minutes before you sit for your tattoo and will only last for around thirty to forty-five minutes. Tattooing being an art form and therefore not an exact science, means that sometimes there could be a period of waiting past your appointment time, while the tattooist finishes off a piece of work that took longer than expected. This makes it very difficult to time the application of the cream, and a tattooist is unlikely to wait thirty minutes while you go numb without charging for the time. Secondly, even if you manage to time its application correctly, the short working period of the cream makes it a very limiting to anything but the simplest and smallest of tattoos. Lastly, if your tattoo is not finished before the cream wears off, then the pain will come back with a vengeance! Your body has been fooled and will not be producing those handy pain-killing endorphins, so will be hit with the force of the returning pain with no protection.\n\nSome tablet pain killers can also cause a problem. Aspirin is the biggest problem as it thins the blood and reduces clotting, this will cause excessive bleeding during your tattoo, which will affect the quality of the finished tattoo. Aspirin will also extend the healing time that your tattoo needs so it is best avoided. Paracetemol will have little effect (positive or negative), other than a placebo. Ibuprofen based painkillers can give some pain relief during the process and will not hinder the tattoo in any way.\n\nHOWEVER...\nIf in any doubt PLEASE seek advise from your own professional health practitioner." },
+        { q: "Can tattoo’s be removed?", a: "They can. There are several options available to you if you have ink that you want rid of. The first, and by far most common way is the cover-up. This involves working with your tattoo artist to come up with a design that will go over and ‘cover-up’ the old one. Tattoo ink is translucent, so the cover-up needs to be darker than the existing tattoo. The new tattoo generally has to be a great deal bigger than the one to be covered up.\n\nThe second option is laser removal. The third is a combination: laser removal to reduce density, followed by a cover-up." },
+        { q: "How do I decide on a design?", a: "Traditionally, you would have chosen your tattoo design from ‘Flash Art’ on the walls. Thankfully today things are different. There is an increasing number of tattooists who will design custom work to your specifications. Your artist will be able to work with you to generate a tattoo that is personal, has more meaning and is less likely to go out of favour with you in a few years." },
+        { q: "How do I decide on a studio?", a: "Visit studios, talk to the tattoo artist, get a general feel for them. Is the studio clean and well presented? If a tattoo artist can’t keep their house in order, what other corners might they be cutting? The regulations in the tattooing industry are minimal, so the cleanliness of the studio will very much reflect their attitude towards their customer’s wellbeing." },
+        { q: "Should I have a drink before my tattoo to steady my nerves?", a: "No. Alcohol thins your blood considerably, causing excessive bleeding while you are having the tattoo, which will have the effect of ‘washing out’ ink as it is being put in. This makes the process much longer and can produce poor results. Alcohol can have an effect for several days." },
+        { q: "What should I do on the day of my tattoo?", a: "Make sure you have had something to eat and drink about an hour before your tattoo to prevent low blood sugar. Dress so that you can expose the area easily while maintaining dignity. Don’t wear your Sunday best as ink can get on clothes. Shave the area if possible the morning prior." },
+        { q: "Can I catch anything from getting a tattoo?", a: "If you have chosen your studio wisely, then the chances of catching anything are similar to a visit to the dentist. Reputable tattooists will be certified in Infection control. Most reported 'infections' are actually bacterial build-up due to poor aftercare." }
+      ];
+
+      const piercingFaqs = [
+        { q: "Does piercing hurt?", a: "Of course it does, but the real question is how much? Often thinking about or waiting to have your piercing will increase your anxiety and fear about the process. The piercing itself is brief, but pain is relative to each person. Talking through any fears or concerns that you may have with your piercer will help." },
+        { q: "How old do I have to be to have a piercing?", a: "If you are under 16 years old you need to have consent from your parent or guardian, they will also need to attend our studio with you. Skin Graphics studio will not pierce younger children’s ears respect your piercer’s views and try to avoid emotional blackmail. A professional piercer will want to know that the child understands what it means to have a piercing, along with the parent or guardian taking responsibility for the aftercare of the piercing. There is some debate regarding the age of genital piercings, our understanding is that it is an offence if you are under the age of 18. If you are over 16 years and are lucky enough look under the age of 25 years be prepared to be asked to provide ID. Here at Skin Graphics, we offer a child friendly environment, as an alternative to overpriced high street chains." },
+        { q: "What should I do before having a piercing?", a: "Having your piercing done on an empty stomach is never a good idea. Eat a good meal before getting pierced to keep your blood sugar steady. If you have not eaten all day your blood sugar will be low, and low blood sugar could cause you to feel dizzy or, in some cases, to faint. Don’t have a drink to steady your nerves. You should also be asked to complete a consent form; this form should also provide you with information regarding side effects of having a piercing." },
+        { q: "What should happen immediately after my piercing?", a: "You should never feel rashed after you have had a piercing. Some people can feel shaky or their new piercing could feel slightly ‘strange and new’ so take the time that you need to feel comfortable to move. Tell your piercer if you feel unwell or faint; don’t be embarrassed you won’t be the first! Some new piercings can take a couple of days to settle and look like they belong, especially if there has been some swelling, be patient. A good studio will provide you with written aftercare information and should have an aftercare solution available for you to purchase." },
+        { q: "Choosing the right Studio for you?", a: "The process of choosing the right piercing studio is a vital one. People spend time seeking out their preferred tattooist, but the majority of people will get a piercing spur of the moment. Take the time to meet your piercer, ask to look around the studio and ensure that you are given enough time to ask any questions that you may have. Getting to know your piercer will improve the experience. The studio that you choose should also be registered with the local authority if the certificate is not on display, ask to see it and a copy of the authorities by-laws; legally these have to be at the studio. The studio should also have a fully operational ultra-sonic cleaner and autoclave. You should feel comfortable in the environment; you shouldn’t be rashed and should be given time to ask all the questions that you need to. If you are not happy with what you see or hear, leave and find another studio. Sometimes spending a little longer looking around or spending a bit more will provide you with not only the service you deserve but also the piercing experience that you want." },
+        { q: "Can I get an infection from being pierced?", a: "Yes potentially you can, especially if your piercer does not follow even the basic infection control principles, but this is very rare. If a piercing becomes infected it is usually due to the person not following the aftercare guidelines that they have been given. Blame is then automatically and mostly unfairly placed on the piercer or studio. When asked your piercer should be able to fully explain to you about infection control, blood borne pathogens and how to properly sterilise their instruments. Ideally studios should be able to provide you with autoclave readings that correspond to packaged sterilised jewellery and a studio cleaning schedule. The clamps and forceps used do not need to be packaged for sterilisation as they do not normally come into contact with bodily fluid; they should be ultrasonically cleaned prior to being sterilised in an autoclave. It goes without saying that the needle is for single use only, and should be un-wrapped in front of you. Jewellery should also be sterilised with packaging again opened in front of you. Work stations should be fully disinfected before and after every piercing procedure, your piercer should wear disposable gloves throughout the procedure, and disposing of needles in a clearly marked sharps container." },
+        { q: "Is there any pain relief that i can use?", a: "There are various options available; some people will choose to take ibuprofen prior to a piercing especially for oral piercings as it is also an anti-inflammatory. Your piercer may offer you a freeze spray which can ease any immediate pain. Try to avoid numbing sprays where possible, but if you choose to use one during your piercing you should be given the products details as you could be allergic to some of the ingredients. Contra-indicators for products are available on the internet and it is worth looking them up prior to using a product. Do not take aspirin as this will thin your blood and could pose problems should you bleed.\n\nHOWEVER...\nIf in any doubt PLEASE seek advise from your own professional health practitioner." },
+        { q: "Will my piercing bleed?", a: "Sometimes yes a new piercing will bleed. A small amount of bleeding the first day or two is not uncommon especially when you are cleaning your piercing. Sometimes even the most experienced piercer can catch a vein which cannot be seen, you may have to have the piercing removed immediately to stop the bleeding so that the area can heal. This is a very rare occurrence however. Sometimes there can be bruising to the tissue around the piercing site which causes discoloration to the skin, but this isn’t usually anything to worry about." },
+        { q: "What can and can't I do during the healing period?", a: "Treat your new piercing like you would a wound. For the first couple of days avoid anything that you think is likely to irritate your piercing. Treat your fresh piercings as gently as possible, this will help your body to heal as quickly as possible. Always remember to wash your hands thoroughly with anti-bacterial soap before touching your healing piercing. See our aftercare section for more information." },
+        { q: "How long before I can change my jewellery?", a: "Healing times can vary from person to person. The first part of the healing period is when your body creates a layer of skin between you and the first piece of jewellery used; the full healing period is when your new piercing is completely healed. Ask your piercer about the healing times for your particular piercing. Changing your jewellery before your piercing has completely healed remember that you could be re-opening the ‘piercing wound’. This will slow your healing process and will require thorough aftercare to prevent any possible infection. When you change your jewellery you are likely to irritate your new piercing, no matter how careful you are. If you are still keen to change your jewellery we advise that you wait until your piercing is no longer tender to touch (with clean hands) or sleep on." },
+        { q: "Why do I have to start with titanium, stainless steel, or gold jewellery?", a: "Titanium (our preferred jewellery all purchased in the Europe) and High-grade Surgical Stainless Steel, which is virtually nickel-free, will give you the best chances of an infection and reaction-free piercing. Jewellery used by professional piercers is specially designed to allow removal of dirt and bacteria effectively during the healing process. Allowing for full movement of the jewellery makes it much easier for you to clean your piercing properly. The metals that are used in this jewellery are also better for your skin and less likely to cause a reaction. There will be plenty of time to change your jewellery to reflect your personal style later." },
+        { q: "How long should I wait before stretching my piercing?", a: "Ideally you should wait at least three times as long as the advised healing period before attempting any stretch. Stretching piercings takes time and patience. Scar tissue can build up and create ugly, problematic piercings that can be difficult to stretch. This allows the new skin some time to thicken and toughen up before it gets traumatized by the enlarging process. If you do decide to start to stretch your piercing keep the area clean, you may find that your stretch will smell this is due to a build-up of dead skin cells and bacteria." },
+        { q: "Needle versus Gun?", a: "Using a needle for the piercing process itself is much safer and less painful than having a blunt stud forced through your skin. A piercing needle is not only hollow but it is also extremely sharp. It slices through the skin, safely pushing the tissue aside to make room for the jewellery to be inserted. Whilst this may not sound too appealing, it is actually a very quick process and the method is virtually painless for most body parts. Piercings that have been done by a needle will heal quicker than those done by a gun. The only piercing that should be done by a gun is the lobes. However ask your piercer how they clean the piercing gun." },
+        { q: "Do piercing guns hurt less than needles?", a: "The piercing gun supposedly hurts less as it is quicker; however in our opinion a needle is still the better choice for the majority of piercings we will only use a gun for ear lobes. Body piercing done with a needle and by a real professional is quick clean and very safe." },
+        { q: "If I have a skin condition can I have a piercing?", a: "If you have a rash, burn, broken skin, or sunburn in the area that will be pierced, you must wait until the skin has healed before you can receive the piercing. It is possible to pierce through scar tissue (to re-pierce an area where you used to have a piercing, for example), but the scar must be completely healed. If you remove a piercing and wish to re-pierce the area, in most cases you should wait one to two months after removing the jewellery for the old piercing to fully heal." },
+        { q: "Why is my tongue really white with a whitish ring around my piercing?", a: "This can be caused if you are using mouth wash too frequently and/or it contains alcohol. As it can destroy the layer of healthy bacteria on the top of your tongue. If this is the case reduce the amount of times you use mouth wash." },
+        { q: "What can I do to help my piercer?", a: "Be honest about any health concerns, your piercer is a professional and has a responsibility under data protection to work in a confidential manner. Be honest if you do not like the position your piercer has suggested for your piercing. It is your piercing, take the time to look at where the potential piercing will be sited, for example with facial piercing smile/frown/pout etc. with body piercings stretch and twist etc. Keep calm, try and relax, take a deep breath and slowly let it out as the piercing takes place. Tensing up can cause some difficulties with piercing certain areas e.g. Nipples. Follow the aftercare advice given to you by your piercer; whilst friends and relatives can be well meaning and may consider themselves an expert because they also have a piercing your piercer is in the best position to advise you. 
+
+If you have any other questions that we haven’t answered here, please feel free to contact us." }
+      ];
+
+      return (
+        <section id="faq" className="py-24 px-8 lg:px-24 bg-black scroll-mt-32">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">Got Questions?</h2>
+              <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Everything You Need to Know</h3>
+              <div className="flex justify-center gap-8 pt-10">
+                <button onClick={() => setActiveTab('tattoo')} className={`text-[11px] font-black uppercase tracking-[0.3em] pb-2 border-b-2 transition-all ${activeTab === 'tattoo' ? 'border-red-600 text-white' : 'border-transparent text-gray-500 hover:text-white'}`}>Tattoo FAQ</button>
+                <button onClick={() => setActiveTab('piercing')} className={`text-[11px] font-black uppercase tracking-[0.3em] pb-2 border-b-2 transition-all ${activeTab === 'piercing' ? 'border-red-600 text-white' : 'border-transparent text-gray-500 hover:text-white'}`}>Piercing FAQ</button>
+              </div>
+            </div>
+            <div className="glass p-8 md:p-12 rounded-[2.5rem] border border-white/10 shadow-2xl faq-content">
+              <div className="mb-12">
+                <p className="text-gray-400 italic text-sm leading-relaxed">
+                  I get asked lots of questions about tattoos and piercings, that's because for some there are lots of questions to ask right? I've put together some of the most often asked here for you to read at your own pace. If you are curious about getting a {activeTab === 'tattoo' ? 'tattoo' : 'Piercing'} or would like to know more have a scroll through the list below, if there is something else you would like to know contact me.
+                </p>
+                <div className="mt-4">
+                  <span className="text-xs font-black uppercase tracking-widest text-red-600">Thanks, Charlie</span>
+                </div>
+              </div>
+              <div className="space-y-4">
+                {(activeTab === 'tattoo' ? tattooFaqs : piercingFaqs).map((f, i) => (
+                  <div key={i} className="border-b border-white/5 pb-8 last:border-0">
+                    <h4 className="text-sm font-black uppercase tracking-widest text-red-600 mb-4">{f.q}</h4>
+                    <div className="text-gray-400 text-xs leading-loose space-y-4">
+                      {f.a.split('\n\n').map((para, pi) => <p key={pi}>{para}</p>)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </section>
       );
     };
@@ -301,8 +506,7 @@
           <div className="space-y-12">
             <div className="bg-white/5 p-10 border-l-4 border-red-600"><h4 className="text-2xl font-bold uppercase mb-4 tracking-tight">Open on the Hill in Stillorgan</h4><p className="text-gray-400 leading-relaxed">The Stillorgan shopping district is easily accessible with plenty of parking space available.</p></div>
             <div className="relative group h-96 border border-white/20 overflow-hidden bg-zinc-900/50 rounded-3xl shadow-2xl">
-              <div className="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&q=80&w=1000" className="w-full h-full object-cover opacity-60" /><div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div></div>
-              <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden opacity-50"><div className="absolute inset-0 snow-effect"></div></div>
+              <div className="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&q=80&w=1000" className="w-full h-full object-cover opacity-60" /></div>
               <div className="absolute inset-0 flex flex-col items-center justify-center p-12 z-20 text-center"><div className="glass p-8 rounded-2xl border border-white/10 space-y-4 max-w-sm w-full"><p className="text-white font-black text-3xl uppercase tracking-tighter">SHUTDOWN PERIOD</p><div className="h-[2px] w-16 bg-red-600 mx-auto"></div><p className="text-gray-200 font-bold">From 23rd December 2025 <br/>till 4th January 2026.</p></div></div>
             </div>
           </div>
@@ -335,31 +539,15 @@
       </section>
     );
 
-    const PiercingPriceList = () => {
-      const [isOpen, setIsOpen] = useState(false);
+    const StudioSection = () => {
+      const studioImages = ["https://static.wixstatic.com/media/cdf61c_c96a886ae9af4426866b62fa2af7bd5f~mv2_d_6016_4016_s_4_2.jpg/v1/fill/w_502,h_324,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_c96a886ae9af4426866b62fa2af7bd5f~mv2_d_6016_4016_s_4_2.jpg", "https://static.wixstatic.com/media/cdf61c_927ee543586c44adb9664067ac02d6c6~mv2_d_4608_3072_s_4_2.jpg/v1/fill/w_1184,h_784,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_927ee543586c44adb9664067ac02d6c6~mv2_d_4608_3072_s_4_2.jpg", "https://static.wixstatic.com/media/cdf61c_d776859552d34be28caf83b210a0e87a~mv2_d_6016_4016_s_4_2.jpg/v1/fill/w_502,h_328,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_d776859552d34be28caf83b210a0e87a~mv2_d_6016_4016_s_4_2.jpg"];
       return (
-        <section id="piercing" className="py-24 px-8 lg:px-24 bg-black relative scroll-mt-32">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between mb-16">
-            <div className="space-y-4"><h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">The Pricing Guide</h2><h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Body Piercing Guide</h3></div>
-            <button onClick={() => setIsOpen(!isOpen)} className="px-10 py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full">{isOpen ? 'Hide Price List' : 'Browse Guide'}</button>
-          </div>
-          {isOpen && (
-            <div className="grid md:grid-cols-2 gap-8">{[
-              {n: "Ear Lobes (Pair - Gold)", p: "€30 - €35"}, {n: "Nostril / Nose", p: "€30 - €35"}, {n: "Septum Piercing", p: "€40.00"}, {n: "Prince Albert (M)", p: "€120.00"}
-            ].map(item => (
-              <div key={item.n} className="glass p-6 rounded-2xl border border-white/5 flex justify-between items-center"><span className="text-xs font-black uppercase tracking-widest">{item.n}</span><span className="text-xl font-black">{item.p}</span></div>
-            ))}</div>
-          )}
+        <section id="the-studio" className="py-24 px-8 lg:px-24 bg-black scroll-mt-32">
+          <div className="flex flex-col items-center mb-16 text-center"><h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600 mb-4">Our Environment</h2><h3 className="text-4xl font-black uppercase tracking-tighter mb-6">The Studio</h3><div className="w-12 h-[2px] bg-white/20"></div></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">{studioImages.map((src, index) => (<div key={index} className="overflow-hidden rounded-2xl border border-white/5 bg-zinc-900 aspect-[4/3] group shadow-2xl"><img src={src} className="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out" /></div>))}</div>
         </section>
       );
     };
-
-    const StudioSection = () => (
-      <section id="the-studio" className="py-24 px-8 lg:px-24 bg-black scroll-mt-32">
-        <div className="flex flex-col items-center mb-16 text-center"><h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600 mb-4">Our Environment</h2><h3 className="text-4xl font-black uppercase tracking-tighter mb-6">The Studio</h3><div className="w-12 h-[2px] bg-white/20"></div></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">{studioImages.map((src, i) => (<div key={i} className="overflow-hidden rounded-2xl border border-white/5 bg-zinc-900 aspect-[4/3] group shadow-2xl"><img src={src} className="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" /></div>))}</div>
-      </section>
-    );
 
     const Gallery = () => (
       <section id="work" className="py-24 px-8 lg:px-24 bg-black">
@@ -370,35 +558,117 @@
       </section>
     );
 
-    const FAQ = () => {
-      const faqs = [{q: "Does It Hurt?", a: "Yes, but endorphins help after a few minutes."}, {q: "How much?", a: "Quality isn't cheap. Save for what you really want."}];
-      return (
-        <section id="faq" className="py-24 px-8 lg:px-24 bg-black relative scroll-mt-32">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-16 space-y-4"><h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">Got Questions?</h2><h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Everything You Need to Know</h3></div>
-            <div className="glass p-8 md:p-12 rounded-[2.5rem] border border-white/10 shadow-2xl">
-              {faqs.map((f, i) => (
-                <div key={i} className="border-b border-white/10 py-6 last:border-0">
-                  <h4 className="text-sm font-black uppercase tracking-widest text-red-600 mb-2">{f.q}</h4>
-                  <p className="text-gray-400 text-sm leading-relaxed">{f.a}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      );
-    };
-
     const BookingForm = () => {
+      const [service, setService] = useState('tattoo');
       const [showConfirm, setShowConfirm] = useState(false);
+
+      const handleFormSubmit = (e) => {
+        e.preventDefault();
+        setShowConfirm(true);
+      };
+
       return (
         <section id="quote-form" className="py-24 bg-black text-white relative">
-          <div className="max-w-4xl mx-auto px-6">
-            <div className="text-center mb-16 space-y-6"><h2 className="text-xs font-black uppercase tracking-[0.5em] text-red-600">Request Reservation</h2><p className="font-black text-3xl md:text-4xl uppercase tracking-tighter leading-none">Book Your Consultation</p></div>
-            <div className="glass p-8 md:p-12 rounded-[2.5rem] border border-white/10 shadow-2xl relative overflow-hidden">
-              <form className="space-y-10" onSubmit={(e) => { e.preventDefault(); setShowConfirm(true); }}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8"><input type="text" placeholder="First Name" className="bg-white/5 border border-white/10 p-4 rounded-xl" required /><input type="email" placeholder="Email" className="bg-white/5 border border-white/10 p-4 rounded-xl" required /></div>
-                <button type="submit" className="w-full py-6 bg-red-600 text-white font-black uppercase tracking-[0.3em] text-xs hover:bg-white hover:text-black transition-all rounded-full shadow-2xl">Submit Request</button>
+          <div className="max-w-4xl mx-auto px-6 relative z-10">
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.6em] text-red-600">REQUEST RESERVATION</h2>
+              <p className="font-black text-4xl md:text-5xl uppercase tracking-tighter leading-none text-white">Book Your Consultation</p>
+              <div className="space-y-4 pt-6 max-w-2xl mx-auto">
+                <p className="text-[11px] font-medium text-gray-400 leading-relaxed italic">
+                  Please note that this information is NOT for making a booking. It is meant to request a reservation, and we will contact you within the next 24 to 48 hours via email or phone to confirm.
+                </p>
+                <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest leading-loose text-center">
+                  ALTERNATIVELY, YOU CAN <a href="tel:016853737" className="text-red-600 underline">CALL</a> TO INQUIRE ABOUT SAME-DAY BOOKING.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-[#0a0a0a] p-8 md:p-16 rounded-[3rem] border border-white/5 shadow-2xl relative">
+              <h3 className="text-lg font-black uppercase tracking-[0.3em] mb-12 text-center text-white">Contact Information</h3>
+              <form className="space-y-12" onSubmit={handleFormSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">First Name *</label>
+                    <input type="text" placeholder="Enter your Name" className="w-full bg-[#111] border border-white/5 p-5 text-sm rounded-xl" required />
+                  </div>
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">Last Name *</label>
+                    <input type="text" placeholder="Enter your Last Name" className="w-full bg-[#111] border border-white/5 p-5 text-sm rounded-xl" required />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">Code *</label>
+                    <select className="w-full bg-[#111] border border-white/5 p-5 text-sm rounded-xl appearance-none"><option>IE +353</option></select>
+                  </div>
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">Phone *</label>
+                    <input type="tel" placeholder="What's your Number" className="w-full bg-[#111] border border-white/5 p-5 text-sm rounded-xl" required />
+                  </div>
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">Email Address *</label>
+                    <input type="email" placeholder="Email" className="w-full bg-[#111] border border-white/5 p-5 text-sm rounded-xl" required />
+                  </div>
+                </div>
+
+                <div className="bg-[#111]/30 p-8 rounded-[2.5rem] border border-white/5 relative mt-16 text-center">
+                  <span className="absolute -top-3 left-10 bg-[#0a0a0a] px-4 text-[9px] font-black uppercase tracking-[0.4em] text-red-600">Service Selection</span>
+                  <div className="flex flex-wrap justify-center gap-12 pt-4">
+                    {['Tattoo', 'Piercing', 'Other'].map((opt) => (
+                      <label key={opt} className="flex items-center gap-4 cursor-pointer">
+                        <input type="radio" name="service" value={opt.toLowerCase()} checked={service === opt.toLowerCase()} onChange={(e) => setService(e.target.value)} className="w-5 h-5 accent-red-600" />
+                        <span className={`text-[11px] font-black uppercase tracking-[0.3em] ${service === opt.toLowerCase() ? 'text-white' : 'text-gray-500'}`}>{opt}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">Appointment Date *</label>
+                    <input type="date" className="w-full bg-[#111] border border-white/5 p-5 text-sm rounded-xl invert-calendar" required />
+                  </div>
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">App Time *</label>
+                    <select className="w-full bg-[#111] border border-white/5 p-5 text-sm rounded-xl appearance-none" required><option value="">Select Time</option><option>10:00 AM</option><option>2:00 PM</option></select>
+                  </div>
+                </div>
+
+                {service === 'tattoo' && (
+                  <div className="bg-[#111]/30 p-10 rounded-[3rem] border border-white/5 relative space-y-8">
+                    <span className="absolute -top-3 left-10 bg-[#0a0a0a] px-4 text-[9px] font-black uppercase tracking-[0.4em] text-gray-500">Tattoo Detail</span>
+                    <textarea className="w-full bg-[#111] border border-white/5 p-6 text-sm min-h-[160px] rounded-2xl" placeholder="Describe your idea..."></textarea>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                      <input type="text" placeholder="Placement" className="bg-[#111] border border-white/5 p-5 text-xs rounded-xl" />
+                      <input type="text" placeholder="Size (cm)" className="bg-[#111] border border-white/5 p-5 text-xs rounded-xl" />
+                      <input type="text" placeholder="Budget (€)" className="bg-[#111] border border-white/5 p-5 text-xs rounded-xl" />
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex flex-col md:flex-row items-center justify-between gap-12 py-8">
+                  <div className="flex-1 w-full space-y-4">
+                    <p className="text-[9px] font-black uppercase tracking-[0.4em] text-center text-gray-600">Reference Image 1</p>
+                    <div className="border-2 border-dashed border-white/5 p-12 bg-[#111]/30 text-center rounded-[2rem] cursor-pointer">
+                      <span className="text-2xl text-white/40">+</span><br/><span className="text-[10px] uppercase font-black tracking-widest text-gray-400">Upload File</span>
+                    </div>
+                  </div>
+                  <div className="opacity-10 scale-75 hidden md:block"><Logo light={true} /></div>
+                  <div className="flex-1 w-full space-y-4">
+                    <p className="text-[9px] font-black uppercase tracking-[0.4em] text-center text-gray-600">Reference Image 2</p>
+                    <div className="border-2 border-dashed border-white/5 p-12 bg-[#111]/30 text-center rounded-[2rem] cursor-pointer">
+                      <span className="text-2xl text-white/40">+</span><br/><span className="text-[10px] uppercase font-black tracking-widest text-gray-400">Upload File</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col md:flex-row items-center justify-between gap-12 pt-12 border-t border-white/5">
+                   <div className="bg-[#111] p-5 flex items-center gap-8 rounded-2xl border border-white/5">
+                      <div className="flex items-center gap-4"><input type="checkbox" className="w-6 h-6 rounded accent-red-600" /><span className="text-[10px] font-black uppercase text-white/60">I'm not a robot</span></div>
+                   </div>
+                   <button type="submit" className="w-full md:w-96 py-7 bg-red-600 text-white font-black uppercase tracking-[0.4em] text-xs hover:bg-white hover:text-black transition-all rounded-2xl shadow-2xl">Submit Request</button>
+                </div>
               </form>
             </div>
           </div>
@@ -417,22 +687,10 @@
 
     const ChatBookingAgent = () => {
       const [isOpen, setIsOpen] = useState(false);
-      const [messages, setMessages] = useState([{ role: 'model', text: "Hi! I'm the Skin Graphics Booking Assistant. Can I help you schedule a call or consultation?" }]);
+      const [messages, setMessages] = useState([{ role: 'model', text: "Hi! I'm the Skin Graphics Booking Assistant. I can help you schedule a call or book a tattoo/piercing consultation. To start, could you tell me your name?" }]);
       const [inputValue, setInputValue] = useState('');
       const [isLoading, setIsLoading] = useState(false);
       const chatRef = useRef(null);
-
-      const initChat = () => {
-        if (!chatRef.current) {
-          const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
-          chatRef.current = ai.chats.create({
-            model: 'gemini-3-flash-preview',
-            config: {
-              systemInstruction: `Role: Skin Graphics Booking Assistant. Contact: franny.lee@gmail.com.`
-            }
-          });
-        }
-      };
 
       const handleSendMessage = async (e) => {
         e?.preventDefault();
@@ -441,68 +699,181 @@
         setInputValue('');
         setMessages(prev => [...prev, { role: 'user', text: userText }]);
         setIsLoading(true);
-        initChat();
+        if (!chatRef.current) {
+          const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+          chatRef.current = ai.chats.create({ model: 'gemini-3-flash-preview', config: { systemInstruction: "Role: Skin Graphics Booking Assistant." } });
+        }
         try {
           const response = await chatRef.current.sendMessage({ message: userText });
           setMessages(prev => [...prev, { role: 'model', text: response.text || "I've processed your request." }]);
-        } catch (err) {
-          setMessages(prev => [...prev, { role: 'model', text: "Trouble connecting. Call us at 01 6853737." }]);
-        } finally { setIsLoading(false); }
+        } catch (err) { setMessages(prev => [...prev, { role: 'model', text: "Trouble connecting. Call us at 01 6853737." }]); }
+        finally { setIsLoading(false); }
       };
 
       return (
         <div className="fixed bottom-8 left-8 z-[150]">
           {isOpen && (
-            <div className="glass w-[350px] sm:w-[400px] h-[500px] rounded-[2rem] border border-white/10 shadow-2xl flex flex-col overflow-hidden mb-6 animate-in slide-in-from-bottom-10">
+            <div className="glass w-[350px] sm:w-[400px] h-[500px] rounded-[2rem] border border-white/10 shadow-2xl flex flex-col overflow-hidden mb-6">
               <div className="bg-zinc-900 p-6 flex items-center justify-between"><h4 className="text-[11px] font-black uppercase tracking-[0.2em]">Booking Assistant</h4><button onClick={() => setIsOpen(false)}>×</button></div>
               <div className="flex-1 overflow-y-auto p-6 space-y-4">{messages.map((m, i) => (<div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[85%] p-4 rounded-2xl text-xs ${m.role === 'user' ? 'bg-red-600 text-white' : 'bg-white/5 text-gray-300'}`}>{m.text}</div></div>))}</div>
-              <form onSubmit={handleSendMessage} className="p-6 border-t border-white/5 flex gap-3"><input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Type..." className="flex-1 bg-white/5 p-3 text-xs rounded-xl" /><button type="submit" disabled={isLoading} className="bg-red-600 p-3 rounded-xl">Send</button></form>
+              <form onSubmit={handleSendMessage} className="p-6 border-t border-white/5 flex gap-3"><input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Type..." className="flex-1 bg-white/5 p-3 text-xs rounded-xl" /><button type="submit" className="bg-red-600 p-3 rounded-xl">Send</button></form>
             </div>
           )}
-          <button onClick={() => setIsOpen(!isOpen)} className="group flex items-center gap-4 bg-white text-black p-2 pr-6 rounded-full border-4 border-black/20 transition-all"><div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center">?</div><span className="text-sm font-black uppercase tracking-tighter">Schedule Consultation</span></button>
+          <button onClick={() => setIsOpen(!isOpen)} className="flex items-center gap-4 bg-white text-black p-2 pr-6 rounded-full border-4 border-black/20 transition-all">
+            <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center">?</div>
+            <div className="flex flex-col items-start">
+              <span className="text-[10px] uppercase font-black opacity-50">Book Today?</span>
+              <span className="text-sm font-black uppercase tracking-tighter">Schedule Consultation</span>
+            </div>
+          </button>
         </div>
       );
     };
 
     const Footer = () => (
-      <footer id="contact-section" className="bg-black py-24 px-8 lg:px-24 border-t border-white/10 relative">
-        <div className="max-w-[1400px] mx-auto grid lg:grid-cols-3 gap-24 relative z-10">
-          <div className="space-y-12"><Logo className="items-start origin-left scale-110" /><h2 className="text-5xl font-black uppercase tracking-tighter">Get in <br/><span className="text-red-600 text-outline">Touch!!</span></h2><p>9 The Hill, Stillorgan, Co. Dublin.</p></div>
-          <div className="space-y-8"><h3 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">Opening Hours</h3><ul className="space-y-4 text-lg"><li className="flex justify-between border-b border-white/10 pb-2"><span>Mon - Fri</span><span className="font-bold">10:00am - 5:30pm</span></li></ul></div>
-          <div className="space-y-12">
-            <h3 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">Where to find us?</h3>
-            <div className="glass p-2 rounded-2xl border border-white/10 relative group"><img src="https://github.com/spiderfranlee/images/blob/main/skin%20graphics%20google.jpg?raw=true" className="w-full grayscale group-hover:grayscale-0 transition-all rounded-xl" /><div className="absolute -top-2 -left-2 w-6 h-6 border-t border-l border-red-600/40"></div><div className="absolute -bottom-2 -right-2 w-6 h-6 border-b border-r border-red-600/40"></div></div>
+      <footer id="contact-section" className="bg-black py-24 px-8 lg:px-24 border-t border-white/5 relative overflow-hidden">
+        <div className="max-w-[1400px] mx-auto">
+          
+          <div className="flex justify-center md:justify-start mb-20">
+            <Logo light={true} className="scale-125 origin-left" />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+            
+            <div className="space-y-12">
+              <div>
+                <h2 className="text-6xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9]">
+                  GET IN <br/>
+                  <span className="text-red-600 italic">TOUCH!!</span>
+                </h2>
+              </div>
+
+              <div className="space-y-8">
+                <div className="flex items-start gap-5">
+                  <div className="mt-1.5 text-red-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Address</p>
+                    <p className="text-lg md:text-xl font-bold text-white leading-relaxed">
+                      9 The Hill, Stillorgan,<br/>
+                      Co. Dublin, Ireland,<br/>
+                      A94 AR23.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-5">
+                  <div className="mt-1.5 text-red-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Phone</p>
+                    <a href="tel:016853737" className="text-lg md:text-xl font-bold text-white hover:text-red-600 transition-colors">
+                      (+353) 01 6853737
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-5">
+                  <div className="mt-1.5 text-red-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Email</p>
+                    <a href="mailto:info@skingraphics.ie" className="text-lg md:text-xl font-bold text-white hover:text-red-600 transition-colors">
+                      info@skingraphics.ie
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-16 lg:pl-12">
+              <div className="space-y-8">
+                <h3 className="text-[11px] font-black uppercase tracking-[0.5em] text-red-600 border-b border-white/5 pb-4">Opening Hours</h3>
+                
+                <div className="space-y-6">
+                  <div className="flex justify-between items-end border-b border-white/5 pb-4">
+                    <span className="text-lg font-medium text-gray-400">Mon - Fri</span>
+                    <span className="text-lg md:text-xl font-black text-white">10:00am - 5:30pm</span>
+                  </div>
+                  <div className="flex justify-between items-end border-b border-white/5 pb-4">
+                    <span className="text-lg font-medium text-gray-400">Sat</span>
+                    <span className="text-lg md:text-xl font-black text-white">11:00am - 3:00pm</span>
+                  </div>
+                  <div className="flex justify-between items-end pb-4">
+                    <span className="text-lg font-medium text-red-600/60">Sun / Bank Holidays</span>
+                    <span className="text-lg md:text-xl font-black text-red-600">Closed</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                {['Facebook', 'Instagram', 'X', 'Pinterest'].map((name) => (
+                  <a key={name} href="#" className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-all text-white/40 hover:text-white uppercase text-[8px] font-bold">
+                    {name.charAt(0)}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-32 space-y-10">
+            <h3 className="text-[11px] font-black uppercase tracking-[0.5em] text-red-600">Where to find us?</h3>
+            <div className="relative group max-w-5xl mx-auto md:mx-0">
+              <div className="relative z-10 rounded-[2.5rem] border-[12px] border-[#111] overflow-hidden shadow-2xl bg-zinc-900 aspect-[16/9] md:aspect-[21/11]">
+                <img 
+                  src="https://github.com/spiderfranlee/images/blob/main/skin%20graphics%20google.jpg?raw=true" 
+                  alt="Skin Graphics Location" 
+                  className="w-full h-full object-cover grayscale opacity-90 transition-all duration-700 group-hover:grayscale-0"
+                />
+              </div>
+              <div className="absolute -top-4 -left-4 w-24 h-24 border-t-2 border-l-2 border-red-600/30 rounded-tl-[3rem] pointer-events-none"></div>
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-red-600/30 rounded-br-[3rem] pointer-events-none"></div>
+            </div>
+          </div>
+
+          <div className="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">© 2025 Skin Graphics Tattoo & Piercing Studio</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">Designed by Premium Creative Agency</div>
           </div>
         </div>
       </footer>
     );
 
-    const App = () => (
-      <div className="relative min-h-screen bg-black text-white selection:bg-red-600 selection:text-white">
-        <Header />
-        <main>
-          <Hero />
-          <ChatBookingAgent />
-          <About />
-          <ArtistSection />
-          <PiercingPriceList />
-          <StudioSection />
-          <Gallery />
-          <FAQ />
-          <BookingForm />
-        </main>
-        <Footer />
-      </div>
-    );
-
-    const rootElement = document.getElementById('root');
-    if (rootElement) {
-      ReactDOM.createRoot(rootElement).render(
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
+    const App = () => {
+      const [isShowreelOpen, setIsShowreelOpen] = useState(false);
+      
+      return (
+        <div className="relative min-h-screen bg-black text-white selection:bg-red-600 selection:text-white">
+          <Header />
+          <main>
+            <Hero onOpenShowreel={() => setIsShowreelOpen(true)} />
+            <ChatBookingAgent />
+            <About />
+            <ArtistSection />
+            <PiercingPriceList />
+            <StudioSection />
+            <Gallery />
+            <FAQ />
+            <BookingForm />
+          </main>
+          <ShowreelModal isOpen={isShowreelOpen} onClose={() => setIsShowreelOpen(false)} />
+          <Footer />
+        </div>
       );
     }
+
+    const rootElement = document.getElementById('root');
+    if (rootElement) { ReactDOM.createRoot(rootElement).render(<App />); }
   </script>
 </body>
 </html>
