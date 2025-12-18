@@ -5,10 +5,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skin Graphics | Custom Tattoos & Piercing</title>
+  
+  <!-- Libraries -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -56,7 +62,6 @@
       animation: slow-spin 30s linear infinite;
     }
 
-    /* Snow Animation for Festive Sections */
     @keyframes snow {
       0% { background-position: 0px 0px, 0px 0px, 0px 0px; }
       100% { background-position: 500px 1000px, 400px 400px, 300px 300px; }
@@ -89,20 +94,415 @@
       filter: invert(1);
     }
   </style>
-<script type="importmap">
+
+  <script type="importmap">
 {
   "imports": {
     "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom": "https://esm.sh/react-dom@^19.2.3",
     "react-dom/client": "https://esm.sh/react-dom@^19.2.3/client",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
   }
 }
 </script>
 </head>
 <body>
   <div id="root"></div>
+
+  <script type="text/babel" data-type="module">
+    import React, { useState, useEffect, useRef } from 'react';
+    import ReactDOM from 'react-dom/client';
+    import { GoogleGenAI, Type } from '@google/genai';
+
+    // --- SHARED DATA ---
+    const galleryImages = [
+      "https://static.wixstatic.com/media/cdf61c_cfca67f3e99748b4b0c192f5e73f07cf~mv2.jpg/v1/fill/w_616,h_616,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/cdf61c_cfca67f3e99748b4b0c192f5e73f07cf~mv2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_2a07a0c4191d4b1290ebfa0a890e67ce~mv2_d_3072_4608_s_4_2.jpg/v1/fill/w_411,h_616,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/cdf61c_2a07a0c4191d4b1290ebfa0a890e67ce~mv2_d_3072_4608_s_4_2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_7602489aa52a4bbdaa260feabb78dff3~mv2.jpg/v1/fill/w_458,h_616,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/cdf61c_7602489aa52a4bbdaa260feabb78dff3~mv2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_b71df1c0e6db441e9661ea017285e139~mv2_d_4608_3072_s_4_2.jpg/v1/fill/w_924,h_616,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/cdf61c_b71df1c0e6db441e9661ea017285e139~mv2_d_4608_3072_s_4_2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_8f69bd5961094113bf22a9e32e3e2f45~mv2_d_3072_4608_s_4_2.jpg/v1/fill/w_411,h_616,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/cdf61c_8f69bd5961094113bf22a9e32e3e2f45~mv2_d_3072_4608_s_4_2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_5b665dad07c143d28124ee2018036ac9~mv2_d_3072_4608_s_4_2.jpg/v1/fill/w_411,h_616,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/cdf61c_5b665dad07c143d28124ee2018036ac9~mv2_d_3072_4608_s_4_2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_1a5ec155703c45159ba5f1bce5551c66~mv2_d_1564_1564_s_2.jpg/v1/fill/w_616,h_616,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/cdf61c_1a5ec155703c45159ba5f1bce5551c66~mv2_d_1564_1564_s_2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_0596e5d4345d4efe9f2278d1c61f8f82~mv2_d_1564_1564_s_2.jpg/v1/fill/w_616,h_616,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/cdf61c_0596e5d4345d4efe9f2278d1c61f8f82~mv2_d_1564_1564_s_2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_1d47bbe10a144fc7ba1acbda42c605aa~mv2_d_3456_4608_s_4_2.jpg/v1/fill/w_462,h_616,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/cdf61c_1d47bbe10a144fc7ba1acbda42c605aa~mv2_d_3456_4608_s_4_2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_a6c00cad31e74a0aa79a1180a35c48bb~mv2.jpg/v1/fill/w_347,h_616,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/cdf61c_a6c00cad31e74a0aa79a1180a35c48bb~mv2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_76afafe98f1049d98a39bf81e4029ff6~mv2_d_4608_3072_s_4_2.jpg/v1/fill/w_924,h_616,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/cdf61c_76afafe98f1049d98a39bf81e4029ff6~mv2_d_4608_3072_s_4_2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_521caf004d5b40a8be4bdbe263dd21f9~mv2_d_3072_4608_s_4_2.jpg/v1/fill/w_411,h_616,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/cdf61c_521caf004d5b40a8be4bdbe263dd21f9~mv2_d_3072_4608_s_4_2.jpg",
+    ];
+
+    const studioImages = [
+      "https://static.wixstatic.com/media/cdf61c_c96a886ae9af4426866b62fa2af7bd5f~mv2_d_6016_4016_s_4_2.jpg/v1/fill/w_502,h_324,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_c96a886ae9af4426866b62fa2af7bd5f~mv2_d_6016_4016_s_4_2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_927ee543586c44adb9664067ac02d6c6~mv2_d_4608_3072_s_4_2.jpg/v1/fill/w_1184,h_784,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_927ee543586c44adb9664067ac02d6c6~mv2_d_4608_3072_s_4_2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_d776859552d34be28caf83b210a0e87a~mv2_d_6016_4016_s_4_2.jpg/v1/fill/w_502,h_328,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_d776859552d34be28caf83b210a0e87a~mv2_d_6016_4016_s_4_2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_3e45b408f9cf44679f7bff0f98705c3e~mv2_d_4608_3072_s_4_2.jpg/v1/fill/w_1184,h_784,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_3e45b408f9cf44679f7bff0f98705c3e~mv2_d_4608_3072_s_4_2.jpg",
+      "https://static.wixstatic.com/media/cdf61c_9e1d489aeee548d384e06c5ccc003685~mv2_d_6016_4016_s_4_2.jpg/v1/fill/w_502,h_326,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_9e1d489aeee548d384e06c5ccc003685~mv2_d_6016_4016_s_4_2.jpg"
+    ];
+
+    // --- COMPONENTS ---
+
+    const Logo = ({ className = "", light = true }) => (
+      <div className={`flex flex-col items-center text-center select-none ${className}`}>
+        <div className="flex items-center gap-1 mb-1 opacity-60">
+          <div className="h-[1px] w-6 md:w-10 bg-gradient-to-r from-transparent to-current"></div>
+          <span className="text-[10px] md:text-xs">❦</span>
+          <div className="h-[1px] w-6 md:w-10 bg-gradient-to-l from-transparent to-current"></div>
+        </div>
+        <h1 className={`logo-font text-2xl md:text-4xl font-bold tracking-[0.15em] uppercase leading-none ${light ? 'text-white' : 'text-black'}`}>
+          Skin Graphics
+        </h1>
+        <div className="flex items-center w-full gap-3 mt-1 opacity-80">
+          <div className={`h-[0.5px] flex-1 ${light ? 'bg-white/30' : 'bg-black/30'}`}></div>
+          <span className={`text-[7px] md:text-[9px] font-bold uppercase tracking-[0.3em] whitespace-nowrap ${light ? 'text-gray-300' : 'text-gray-600'}`}>
+            Tattoo & Piercing Studio
+          </span>
+          <div className={`h-[0.5px] flex-1 ${light ? 'bg-white/30' : 'bg-black/30'}`}></div>
+        </div>
+        <div className="flex items-center gap-1 mt-1 opacity-60 rotate-180">
+          <div className="h-[1px] w-6 md:w-10 bg-gradient-to-r from-transparent to-current"></div>
+          <span className="text-[10px] md:text-xs">❦</span>
+          <div className="h-[1px] w-6 md:w-10 bg-gradient-to-l from-transparent to-current"></div>
+        </div>
+      </div>
+    );
+
+    const Header = () => {
+      const [isScrolled, setIsScrolled] = useState(false);
+      useEffect(() => {
+        const handleScroll = () => setIsScrolled(window.scrollY > 50);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      return (
+        <header className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 lg:px-12 ${isScrolled ? 'py-4 bg-black/80 backdrop-blur-xl border-b border-white/5' : 'py-8 bg-transparent'}`}>
+          <div className="max-w-[1800px] mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-12">
+              <a href="#" className="transform transition-transform hover:scale-[1.02]"><Logo className="items-start" /></a>
+              <nav className="hidden xl:flex items-start gap-12 border-l border-white/10 pl-12">
+                <div className="flex flex-col gap-2 text-[10px] font-black uppercase tracking-[0.2em]">
+                  <a href="#work" className="hover:text-red-600 transition-colors">Work</a>
+                  <a href="#artists" className="hover:text-red-600 transition-colors">Artists</a>
+                  <a href="#gallery" className="hover:text-red-600 transition-colors">Gallery</a>
+                </div>
+                <div className="flex flex-col gap-2 text-[10px] font-black uppercase tracking-[0.2em]">
+                  <a href="#piercing" className="hover:text-red-600 transition-colors">Piercing</a>
+                  <a href="#the-studio" className="hover:text-red-600 transition-colors">The Studio</a>
+                  <a href="#faq" className="hover:text-red-600 transition-colors">FAQ</a>
+                </div>
+              </nav>
+            </div>
+            <div className="hidden 2xl:flex items-center gap-16 border-x border-white/5 px-16">
+               <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-3 group cursor-default">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)]"></span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/80 group-hover:text-white transition-colors">Custom Tattoos</span>
+                </div>
+                <div className="flex items-center gap-3 group cursor-default">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)]"></span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/80 group-hover:text-white transition-colors">Body Piercing</span>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-8">
+              <a href="#quote-form" className="hidden md:block text-[10px] font-black uppercase tracking-[0.25em] hover:text-red-600 transition-colors relative group">
+                Request a Quote
+                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-red-600 transition-all duration-300 group-hover:w-full"></span>
+              </a>
+              <a href="#contact-section" className="text-[10px] font-black uppercase tracking-[0.3em] bg-transparent hover:bg-white hover:text-black transition-all border border-white/20 px-10 py-3.5 rounded-full shadow-lg">Contact</a>
+            </div>
+          </div>
+        </header>
+      );
+    };
+
+    const ShowreelModal = ({ isOpen, onClose }) => {
+      const [currentIndex, setCurrentIndex] = useState(0);
+      const [isPlaying, setIsPlaying] = useState(true);
+      const audioRef = useRef(null);
+      const titles = ["Custom Precision", "Artistic Flow", "Fine Line Work", "Deep Saturation", "Intricate Geometry", "Realistic Portraits", "Modern Piercing", "Traditional Roots", "Studio Excellence", "Sterile Precision", "Vivid Colors", "Abstract Expressions"];
+
+      useEffect(() => {
+        if (isOpen) {
+          document.body.style.overflow = 'hidden';
+          if (audioRef.current) { audioRef.current.volume = 0.3; audioRef.current.play().catch(() => {}); }
+        } else {
+          document.body.style.overflow = 'unset';
+          if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
+        }
+      }, [isOpen]);
+
+      useEffect(() => {
+        if (!isOpen || !isPlaying) return;
+        const timer = setInterval(() => setCurrentIndex((prev) => (prev + 1) % galleryImages.length), 4000);
+        return () => clearInterval(timer);
+      }, [isOpen, isPlaying]);
+
+      if (!isOpen) return null;
+
+      return (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95 backdrop-blur-2xl">
+          <audio ref={audioRef} src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop />
+          <button onClick={onClose} className="absolute top-8 right-8 z-[210] text-white/50 hover:text-white transition-all"><svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M6 18L18 6M6 6l12 12" /></svg></button>
+          <div className="absolute top-0 left-0 w-full h-1 bg-white/10 z-[210]"><div className="h-full bg-red-600 transition-all duration-[4000ms] ease-linear" style={{ width: `${((currentIndex + 1) / galleryImages.length) * 100}%` }}></div></div>
+          <div className="relative w-full h-full flex items-center justify-center p-8 md:p-20 overflow-hidden">
+            {galleryImages.map((src, idx) => (
+              <div key={src} className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ${idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-110 pointer-events-none'}`}>
+                <div className="relative max-w-5xl w-full h-[70vh] md:h-[80vh] group">
+                  <img src={src} className="w-full h-full object-contain drop-shadow-[0_35px_35px_rgba(255,0,0,0.15)] grayscale-[20%] group-hover:grayscale-0 transition-all duration-700" />
+                  <div className="absolute -bottom-12 md:-bottom-20 left-0 w-full text-center"><h2 className="text-4xl md:text-8xl font-black uppercase tracking-tighter text-white/20 select-none animate-pulse">{titles[idx % titles.length]}</h2></div>
+                </div>
+              </div>
+            ))}
+            <div className="absolute inset-x-0 bottom-12 flex justify-center items-center gap-12 z-[210]">
+              <button onClick={() => setIsPlaying(!isPlaying)} className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all shadow-2xl scale-110">{isPlaying ? <svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> : <svg className="h-8 w-8 translate-x-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>}</button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const Hero = () => {
+      const showreelImages = ["https://static.wixstatic.com/media/da8de275022143b583863b84eca02538.jpg/v1/fill/w_1226,h_715,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/da8de275022143b583863b84eca02538.jpg", "https://static.wixstatic.com/media/cdf61c_518d60c578e442d1a79318eac9982466~mv2_d_1920_1283_s_2.jpg/v1/fill/w_1226,h_715,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_518d60c578e442d1a79318eac9982466~mv2_d_1920_1283_s_2.jpg", "https://static.wixstatic.com/media/cdf61c_2583d0666e9240d38150153f148bb19a~mv2_d_1920_1280_s_2.jpg/v1/fill/w_1226,h_715,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/cdf61c_2583d0666e9240d38150153f148bb19a~mv2_d_1920_1280_s_2.jpg"];
+      const [currentIndex, setCurrentIndex] = useState(0);
+      const [galleryIndex, setGalleryIndex] = useState(0);
+      const [isShowreelOpen, setIsShowreelOpen] = useState(false);
+
+      useEffect(() => {
+        const showreelTimer = setInterval(() => setCurrentIndex((prev) => (prev + 1) % showreelImages.length), 5000);
+        const galleryTimer = setInterval(() => setGalleryIndex((prev) => (prev + 1) % galleryImages.length), 3000);
+        return () => { clearInterval(showreelTimer); clearInterval(galleryTimer); };
+      }, []);
+
+      return (
+        <section className="relative min-h-screen w-full flex flex-col justify-center lg:justify-between px-8 lg:px-24 py-32 overflow-hidden bg-black">
+          <div className="absolute inset-0 z-0">{showreelImages.map((img, idx) => (<div key={idx} className={`absolute inset-0 transition-opacity duration-1000 ${idx === currentIndex ? 'opacity-60' : 'opacity-0'}`}><img src={img} className="w-full h-full object-cover" /></div>))}<div className="absolute inset-0 bg-gradient-to-r from-black via-black/30 to-transparent" /></div>
+          <div className="relative z-10 max-w-2xl mb-12 lg:mb-0 lg:pt-32"><h2 className="text-4xl md:text-6xl font-medium leading-tight mb-8">Custom Tattoo Designs.<br/>Telling Your Story.</h2><a href="#quote-form" className="group flex flex-col items-start gap-2"><span className="text-lg font-bold hover:text-red-600 transition-colors uppercase tracking-widest">Request a Quote</span><div className="w-12 h-[2px] bg-white group-hover:w-20 group-hover:bg-red-600 transition-all duration-300"></div></a></div>
+          <div className="relative z-20 self-end w-full max-w-[580px]"><button onClick={() => setIsShowreelOpen(true)} className="w-full glass px-8 py-8 md:px-10 md:py-10 flex items-center justify-between group rounded-[2rem] shadow-2xl text-left"><div className="flex items-center gap-6 md:gap-8"><div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/40 flex items-center justify-center transition-transform group-hover:scale-110"><svg className="h-4 w-4 fill-white translate-x-[1px]" viewBox="0 0 24 24"><path d="M7 6v12l10-6z"/></svg></div><span className="text-2xl md:text-3xl font-bold tracking-tight">Play Showreel</span></div><div className="hidden sm:block w-32 md:w-36 h-20 md:h-24 bg-zinc-800 rounded-xl overflow-hidden relative border border-white/20 shadow-xl"><img src={galleryImages[galleryIndex]} className="w-full h-full object-cover grayscale opacity-70 group-hover:opacity-100 transition-all duration-700" /><div className="absolute inset-0 flex items-center justify-center bg-black/20"><span className="text-[10px] font-black uppercase text-white tracking-[0.1em] drop-shadow-lg">GALLERY</span></div></div></button></div>
+          <ShowreelModal isOpen={isShowreelOpen} onClose={() => setIsShowreelOpen(false)} />
+        </section>
+      );
+    };
+
+    const About = () => (
+      <section id="studio" className="py-24 px-8 lg:px-24 bg-black relative scroll-mt-32">
+        <div className="absolute inset-0 opacity-10 pointer-events-none"><img src="https://images.unsplash.com/photo-1590247813693-5541d1c609fd?auto=format&fit=crop&q=80&w=2000" className="w-full h-full object-cover grayscale" /></div>
+        <div className="grid lg:grid-cols-2 gap-20 relative z-10">
+          <div className="flex flex-col justify-center">
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600 mb-4">Established Excellence</h2>
+            <h3 className="text-4xl md:text-5xl font-black uppercase mb-8">Welcome to our <br/>Tattoo Studio!</h3>
+            <p className="text-gray-400 text-lg leading-relaxed mb-10">Established and owned by Charlie Azzopardi, Skin Graphics provides a wide range of tattoo and body piercing services.</p>
+            <div className="grid grid-cols-2 gap-8">
+              <div><div className="text-4xl font-black mb-2">20+</div><div className="text-xs uppercase tracking-widest text-gray-500 font-bold">Years Experience</div></div>
+              <div><div className="text-4xl font-black mb-2">50k+</div><div className="text-xs uppercase tracking-widest text-gray-500 font-bold">Custom Designs</div></div>
+            </div>
+          </div>
+          <div className="space-y-12">
+            <div className="bg-white/5 p-10 border-l-4 border-red-600"><h4 className="text-2xl font-bold uppercase mb-4 tracking-tight">Open on the Hill in Stillorgan</h4><p className="text-gray-400 leading-relaxed">The Stillorgan shopping district is easily accessible with plenty of parking space available.</p></div>
+            <div className="relative group h-96 border border-white/20 overflow-hidden bg-zinc-900/50 rounded-3xl shadow-2xl">
+              <div className="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&q=80&w=1000" className="w-full h-full object-cover opacity-60" /><div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div></div>
+              <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden opacity-50"><div className="absolute inset-0 snow-effect"></div></div>
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-12 z-20 text-center"><div className="glass p-8 rounded-2xl border border-white/10 space-y-4 max-w-sm w-full"><p className="text-white font-black text-3xl uppercase tracking-tighter">SHUTDOWN PERIOD</p><div className="h-[2px] w-16 bg-red-600 mx-auto"></div><p className="text-gray-200 font-bold">From 23rd December 2025 <br/>till 4th January 2026.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+
+    const ArtistSection = () => (
+      <section id="artists" className="py-0 bg-black min-h-[800px] flex items-stretch scroll-mt-32">
+        <div className="w-full grid lg:grid-cols-2">
+          <div className="relative min-h-[600px] bg-[#222] overflow-hidden flex items-center justify-center">
+             <div className="relative z-10 w-full max-w-md px-8 group">
+              <div className="relative border border-white/10 shadow-2xl">
+                <img src="https://static.wixstatic.com/media/cdf61c_20e8ca0103fe4762b8cf4d54cf3fa0ce~mv2.jpg/v1/crop/x_1260,y_1352,w_1931,h_2476/fill/w_424,h_544,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DSC_2672_JPG.jpg" className="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700" />
+                <div className="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-red-600"></div>
+                <div className="absolute -bottom-4 -right-4 w-12 h-12 border-b-2 border-r-2 border-red-600"></div>
+              </div>
+            </div>
+          </div>
+          <div className="p-12 lg:p-24 flex flex-col justify-center bg-black">
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600 mb-6">Meet the Master</h2>
+            <h3 className="text-5xl font-black uppercase tracking-tighter mb-10 leading-none">Artistic Purity & <br/>Precision</h3>
+            <p className="text-gray-400 text-lg leading-relaxed mb-10 max-w-xl">Born in Malta, Charlie Azzopardi brings over 20 years of international experience to Stillorgan.</p>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-y-4 text-[11px] uppercase tracking-[0.2em] font-black">
+              <li className="flex items-center gap-3"><span className="text-red-600">•</span>Custom Tattoos</li>
+              <li className="flex items-center gap-3"><span className="text-red-600">•</span>Body Piercing</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    );
+
+    const PiercingPriceList = () => {
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <section id="piercing" className="py-24 px-8 lg:px-24 bg-black relative scroll-mt-32">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between mb-16">
+            <div className="space-y-4"><h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">The Pricing Guide</h2><h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Body Piercing Guide</h3></div>
+            <button onClick={() => setIsOpen(!isOpen)} className="px-10 py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full">{isOpen ? 'Hide Price List' : 'Browse Guide'}</button>
+          </div>
+          {isOpen && (
+            <div className="grid md:grid-cols-2 gap-8">{[
+              {n: "Ear Lobes (Pair - Gold)", p: "€30 - €35"}, {n: "Nostril / Nose", p: "€30 - €35"}, {n: "Septum Piercing", p: "€40.00"}, {n: "Prince Albert (M)", p: "€120.00"}
+            ].map(item => (
+              <div key={item.n} className="glass p-6 rounded-2xl border border-white/5 flex justify-between items-center"><span className="text-xs font-black uppercase tracking-widest">{item.n}</span><span className="text-xl font-black">{item.p}</span></div>
+            ))}</div>
+          )}
+        </section>
+      );
+    };
+
+    const StudioSection = () => (
+      <section id="the-studio" className="py-24 px-8 lg:px-24 bg-black scroll-mt-32">
+        <div className="flex flex-col items-center mb-16 text-center"><h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600 mb-4">Our Environment</h2><h3 className="text-4xl font-black uppercase tracking-tighter mb-6">The Studio</h3><div className="w-12 h-[2px] bg-white/20"></div></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">{studioImages.map((src, i) => (<div key={i} className="overflow-hidden rounded-2xl border border-white/5 bg-zinc-900 aspect-[4/3] group shadow-2xl"><img src={src} className="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" /></div>))}</div>
+      </section>
+    );
+
+    const Gallery = () => (
+      <section id="work" className="py-24 px-8 lg:px-24 bg-black">
+        <div id="gallery" className="scroll-mt-32 flex flex-col md:flex-row items-end justify-between mb-16 border-l-2 border-red-600 pl-8">
+          <div><h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600 mb-4">The Portfolio</h2><h3 className="text-4xl font-black uppercase tracking-tighter">Art Gallery</h3></div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">{galleryImages.map((img, i) => (<div key={i} className="overflow-hidden group aspect-[3/4] bg-zinc-900"><img src={img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100" /></div>))}</div>
+      </section>
+    );
+
+    const FAQ = () => {
+      const faqs = [{q: "Does It Hurt?", a: "Yes, but endorphins help after a few minutes."}, {q: "How much?", a: "Quality isn't cheap. Save for what you really want."}];
+      return (
+        <section id="faq" className="py-24 px-8 lg:px-24 bg-black relative scroll-mt-32">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-16 space-y-4"><h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">Got Questions?</h2><h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Everything You Need to Know</h3></div>
+            <div className="glass p-8 md:p-12 rounded-[2.5rem] border border-white/10 shadow-2xl">
+              {faqs.map((f, i) => (
+                <div key={i} className="border-b border-white/10 py-6 last:border-0">
+                  <h4 className="text-sm font-black uppercase tracking-widest text-red-600 mb-2">{f.q}</h4>
+                  <p className="text-gray-400 text-sm leading-relaxed">{f.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    const BookingForm = () => {
+      const [showConfirm, setShowConfirm] = useState(false);
+      return (
+        <section id="quote-form" className="py-24 bg-black text-white relative">
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="text-center mb-16 space-y-6"><h2 className="text-xs font-black uppercase tracking-[0.5em] text-red-600">Request Reservation</h2><p className="font-black text-3xl md:text-4xl uppercase tracking-tighter leading-none">Book Your Consultation</p></div>
+            <div className="glass p-8 md:p-12 rounded-[2.5rem] border border-white/10 shadow-2xl relative overflow-hidden">
+              <form className="space-y-10" onSubmit={(e) => { e.preventDefault(); setShowConfirm(true); }}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8"><input type="text" placeholder="First Name" className="bg-white/5 border border-white/10 p-4 rounded-xl" required /><input type="email" placeholder="Email" className="bg-white/5 border border-white/10 p-4 rounded-xl" required /></div>
+                <button type="submit" className="w-full py-6 bg-red-600 text-white font-black uppercase tracking-[0.3em] text-xs hover:bg-white hover:text-black transition-all rounded-full shadow-2xl">Submit Request</button>
+              </form>
+            </div>
+          </div>
+          {showConfirm && (
+            <div className="fixed inset-0 z-[150] flex items-center justify-center p-6 bg-black/80 backdrop-blur-md">
+              <div className="glass max-w-md w-full p-10 rounded-[2rem] border border-white/20 text-center space-y-8 animate-in fade-in zoom-in duration-300">
+                <h3 className="text-2xl font-black uppercase tracking-tighter">Request Received!</h3>
+                <p className="text-sm text-gray-400">Our team will contact you within 24-48 hours.</p>
+                <button onClick={() => setShowConfirm(false)} className="w-full py-4 bg-red-600 text-[10px] font-black uppercase tracking-widest rounded-full">Close</button>
+              </div>
+            </div>
+          )}
+        </section>
+      );
+    };
+
+    const ChatBookingAgent = () => {
+      const [isOpen, setIsOpen] = useState(false);
+      const [messages, setMessages] = useState([{ role: 'model', text: "Hi! I'm the Skin Graphics Booking Assistant. Can I help you schedule a call or consultation?" }]);
+      const [inputValue, setInputValue] = useState('');
+      const [isLoading, setIsLoading] = useState(false);
+      const chatRef = useRef(null);
+
+      const initChat = () => {
+        if (!chatRef.current) {
+          const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+          chatRef.current = ai.chats.create({
+            model: 'gemini-3-flash-preview',
+            config: {
+              systemInstruction: `Role: Skin Graphics Booking Assistant. Contact: franny.lee@gmail.com.`
+            }
+          });
+        }
+      };
+
+      const handleSendMessage = async (e) => {
+        e?.preventDefault();
+        if (!inputValue.trim() || isLoading) return;
+        const userText = inputValue;
+        setInputValue('');
+        setMessages(prev => [...prev, { role: 'user', text: userText }]);
+        setIsLoading(true);
+        initChat();
+        try {
+          const response = await chatRef.current.sendMessage({ message: userText });
+          setMessages(prev => [...prev, { role: 'model', text: response.text || "I've processed your request." }]);
+        } catch (err) {
+          setMessages(prev => [...prev, { role: 'model', text: "Trouble connecting. Call us at 01 6853737." }]);
+        } finally { setIsLoading(false); }
+      };
+
+      return (
+        <div className="fixed bottom-8 left-8 z-[150]">
+          {isOpen && (
+            <div className="glass w-[350px] sm:w-[400px] h-[500px] rounded-[2rem] border border-white/10 shadow-2xl flex flex-col overflow-hidden mb-6 animate-in slide-in-from-bottom-10">
+              <div className="bg-zinc-900 p-6 flex items-center justify-between"><h4 className="text-[11px] font-black uppercase tracking-[0.2em]">Booking Assistant</h4><button onClick={() => setIsOpen(false)}>×</button></div>
+              <div className="flex-1 overflow-y-auto p-6 space-y-4">{messages.map((m, i) => (<div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[85%] p-4 rounded-2xl text-xs ${m.role === 'user' ? 'bg-red-600 text-white' : 'bg-white/5 text-gray-300'}`}>{m.text}</div></div>))}</div>
+              <form onSubmit={handleSendMessage} className="p-6 border-t border-white/5 flex gap-3"><input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Type..." className="flex-1 bg-white/5 p-3 text-xs rounded-xl" /><button type="submit" disabled={isLoading} className="bg-red-600 p-3 rounded-xl">Send</button></form>
+            </div>
+          )}
+          <button onClick={() => setIsOpen(!isOpen)} className="group flex items-center gap-4 bg-white text-black p-2 pr-6 rounded-full border-4 border-black/20 transition-all"><div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center">?</div><span className="text-sm font-black uppercase tracking-tighter">Schedule Consultation</span></button>
+        </div>
+      );
+    };
+
+    const Footer = () => (
+      <footer id="contact-section" className="bg-black py-24 px-8 lg:px-24 border-t border-white/10 relative">
+        <div className="max-w-[1400px] mx-auto grid lg:grid-cols-3 gap-24 relative z-10">
+          <div className="space-y-12"><Logo className="items-start origin-left scale-110" /><h2 className="text-5xl font-black uppercase tracking-tighter">Get in <br/><span className="text-red-600 text-outline">Touch!!</span></h2><p>9 The Hill, Stillorgan, Co. Dublin.</p></div>
+          <div className="space-y-8"><h3 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">Opening Hours</h3><ul className="space-y-4 text-lg"><li className="flex justify-between border-b border-white/10 pb-2"><span>Mon - Fri</span><span className="font-bold">10:00am - 5:30pm</span></li></ul></div>
+          <div className="space-y-12">
+            <h3 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">Where to find us?</h3>
+            <div className="glass p-2 rounded-2xl border border-white/10 relative group"><img src="https://github.com/spiderfranlee/images/blob/main/skin%20graphics%20google.jpg?raw=true" className="w-full grayscale group-hover:grayscale-0 transition-all rounded-xl" /><div className="absolute -top-2 -left-2 w-6 h-6 border-t border-l border-red-600/40"></div><div className="absolute -bottom-2 -right-2 w-6 h-6 border-b border-r border-red-600/40"></div></div>
+          </div>
+        </div>
+      </footer>
+    );
+
+    const App = () => (
+      <div className="relative min-h-screen bg-black text-white selection:bg-red-600 selection:text-white">
+        <Header />
+        <main>
+          <Hero />
+          <ChatBookingAgent />
+          <About />
+          <ArtistSection />
+          <PiercingPriceList />
+          <StudioSection />
+          <Gallery />
+          <FAQ />
+          <BookingForm />
+        </main>
+        <Footer />
+      </div>
+    );
+
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+      ReactDOM.createRoot(rootElement).render(
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      );
+    }
+  </script>
 </body>
 </html>
