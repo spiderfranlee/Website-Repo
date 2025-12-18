@@ -47,7 +47,8 @@ const Footer: React.FC = () => {
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 blur-[120px] rounded-full pointer-events-none"></div>
       
-      <div className="max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-24 relative z-10">
+      <div className="max-w-[1400px] mx-auto grid lg:grid-cols-3 gap-24 relative z-10">
+        {/* Column 1: Identity & Primary Contact */}
         <div className="space-y-12">
           <Logo className="items-start transform origin-left scale-110" />
           
@@ -61,7 +62,7 @@ const Footer: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <p className="flex flex-col">
+                <p className="flex flex-col text-left">
                   <span className="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">Address</span>
                   <span className="text-lg">9 The Hill, Stillorgan,<br/>Co. Dublin, Ireland,<br/>A94 AR23.</span>
                 </p>
@@ -73,7 +74,7 @@ const Footer: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                 </div>
-                <p className="flex flex-col">
+                <p className="flex flex-col text-left">
                   <span className="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">Phone</span>
                   <a href="tel:016853737" className="text-lg font-bold hover:text-red-600 transition-colors tracking-tight">(+353) 01 6853737</a>
                 </p>
@@ -85,7 +86,7 @@ const Footer: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <p className="flex flex-col">
+                <p className="flex flex-col text-left">
                   <span className="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">Email</span>
                   <a href="mailto:info@skingraphics.ie" className="text-lg hover:text-red-600 transition-colors">info@skingraphics.ie</a>
                 </p>
@@ -94,35 +95,62 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex flex-col justify-between">
-          <div className="space-y-8">
-            <h3 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">Opening Hours</h3>
-            <ul className="space-y-4 text-lg">
-              <li className="flex justify-between border-b border-white/10 pb-2">
-                <span className="text-gray-400">Mon - Fri</span>
-                <span className="font-bold">10:00am - 5:30pm</span>
-              </li>
-              <li className="flex justify-between border-b border-white/10 pb-2">
-                <span className="text-gray-400">Sat</span>
-                <span className="font-bold">11:00am - 3:00pm</span>
-              </li>
-              <li className="flex justify-between text-red-600">
-                <span className="text-red-600/50">Sun / Bank Holidays</span>
-                <span className="font-bold">Closed</span>
-              </li>
-            </ul>
-          </div>
+        {/* Column 2: Operations */}
+        <div className="space-y-8">
+          <h3 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">Opening Hours</h3>
+          <ul className="space-y-4 text-lg">
+            <li className="flex justify-between border-b border-white/10 pb-2">
+              <span className="text-gray-400">Mon - Fri</span>
+              <span className="font-bold">10:00am - 5:30pm</span>
+            </li>
+            <li className="flex justify-between border-b border-white/10 pb-2">
+              <span className="text-gray-400">Sat</span>
+              <span className="font-bold">11:00am - 3:00pm</span>
+            </li>
+            <li className="flex justify-between text-red-600">
+              <span className="text-red-600/50">Sun / Bank Holidays</span>
+              <span className="font-bold">Closed</span>
+            </li>
+          </ul>
           
-          <div className="pt-16">
+          <div className="pt-12 bg-zinc-900/30 p-8 rounded-3xl border border-white/5">
+            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/60 mb-4">Quality & Care</h4>
+            <p className="text-xs text-gray-500 leading-relaxed italic">
+              "We pride ourselves on providing a sterile, artistic environment where your creative vision becomes reality."
+            </p>
+          </div>
+        </div>
+
+        {/* Column 3: Trust & Community */}
+        <div className="space-y-12">
+          {/* Google Ratings Badge */}
+          <div className="space-y-6">
+             <h3 className="text-xs font-black uppercase tracking-[0.4em] text-red-600">Where to find us?</h3>
+             <div className="relative group max-w-xs mx-auto lg:mx-0">
+               <div className="glass p-2 rounded-2xl border border-white/10 shadow-[0_0_20px_rgba(220,38,38,0.05)] transition-all group-hover:shadow-[0_0_30px_rgba(220,38,38,0.15)] group-hover:border-red-600/30">
+                 <img 
+                    src="https://github.com/spiderfranlee/images/blob/main/skin%20graphics%20google.jpg?raw=true" 
+                    alt="Skin Graphics Google Rating" 
+                    className="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700 rounded-xl"
+                  />
+                  {/* Decorative corners */}
+                  <div className="absolute -top-2 -left-2 w-6 h-6 border-t border-l border-red-600/40"></div>
+                  <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b border-r border-red-600/40"></div>
+               </div>
+               <p className="mt-4 text-[9px] font-black uppercase tracking-[0.3em] text-white/30 text-center lg:text-left">Top Rated in Stillorgan District</p>
+             </div>
+          </div>
+
+          <div className="pt-6">
             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40 mb-6">Join the Community</p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
               {socialLinks.map(social => (
                 <a 
                   key={social.name} 
                   href={social.url} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-all group"
+                  className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-all group"
                   title={social.name}
                 >
                   <span className="sr-only">{social.name}</span>
