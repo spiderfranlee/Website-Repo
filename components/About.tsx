@@ -39,57 +39,6 @@ const About: React.FC = () => {
               The Stillorgan shopping district is easily accessible with plenty of parking space available. We are located in a historic and lively area, making your visit comfortable and convenient.
             </p>
           </div>
-          
-          {/* Enhanced Festive Holiday Notice */}
-          <div className="relative group h-96 border border-white/20 overflow-hidden bg-zinc-900/50 rounded-3xl shadow-2xl">
-            {/* Festive Background Image */}
-            <div className="absolute inset-0 z-0">
-              <img 
-                src="https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&q=80&w=1000" 
-                alt="Christmas Tree with warm lights" 
-                className="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-            </div>
-
-            {/* Snow Animation Overlay */}
-            <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden opacity-50">
-              <div className="absolute inset-0 snow-effect"></div>
-            </div>
-            
-            {/* Title Overlay */}
-            <div className="absolute top-6 left-6 flex items-center gap-3 z-20">
-              <div className="w-6 h-6 border border-white/50 flex items-center justify-center bg-red-600/20 backdrop-blur-sm">
-                 <span className="text-[10px]">❄</span>
-              </div>
-              <h5 className="text-xl font-black tracking-tight text-white drop-shadow-lg uppercase">Holiday Notice</h5>
-            </div>
-
-            {/* Content Overlay */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-12 z-20">
-              <div className="glass p-8 rounded-2xl border border-white/10 text-center space-y-4 max-w-sm w-full">
-                <p className="text-white font-black text-3xl uppercase tracking-tighter leading-none">
-                  SHUTDOWN PERIOD
-                </p>
-                <div className="h-[2px] w-16 bg-red-600 mx-auto"></div>
-                <p className="text-gray-200 font-bold text-base leading-relaxed">
-                  From 23rd December 2025 <br/>
-                  till 4th January 2026.
-                </p>
-                <div className="pt-4 space-y-1">
-                  <p className="text-red-500 font-black text-[11px] uppercase tracking-[0.3em]">
-                    Season Greeting
-                  </p>
-                  <p className="text-white/40 font-black text-[9px] uppercase tracking-[0.2em]">
-                    For your support
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Warm Inner Glow on Hover */}
-            <div className="absolute inset-0 border-[16px] border-white/0 group-hover:border-red-600/5 transition-all duration-700 pointer-events-none rounded-3xl"></div>
-          </div>
         </div>
       </div>
     </section>
