@@ -19,32 +19,34 @@ export const galleryImages = [
 const Gallery: React.FC = () => {
   return (
     <section id="work" className="py-24 px-8 lg:px-24 bg-black">
-      <div id="gallery" className="scroll-mt-32 flex flex-col md:flex-row items-end justify-between mb-16 border-l-2 border-red-600 pl-8">
-        <div>
-          <h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600 mb-4">The Portfolio</h2>
-          <h3 className="text-4xl font-black uppercase tracking-tighter">Art Gallery</h3>
-        </div>
-        <p className="max-w-xs text-gray-500 text-xs font-bold uppercase tracking-widest mt-4 md:mt-0">
-          A selection of our finest custom works across tattoos and body piercings.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
-        {galleryImages.map((img, i) => (
-          <div key={i} className="overflow-hidden group aspect-[3/4] bg-zinc-900">
-            <img 
-              src={img} 
-              alt={`Gallery item ${i}`} 
-              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
-            />
+      <div className="max-w-7xl mx-auto">
+        <div id="gallery" className="scroll-mt-32 flex flex-col md:flex-row items-end justify-between mb-16 border-l-2 border-red-600 pl-8">
+          <div>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600 mb-4">The Portfolio</h2>
+            <h3 className="text-4xl font-black uppercase tracking-tighter">Art Gallery</h3>
           </div>
-        ))}
-      </div>
-      
-      <div className="mt-16 flex justify-center">
-        <button className="px-12 py-4 border border-white/20 text-xs font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">
-          Explore Full Archive
-        </button>
+          <p className="max-w-xs text-gray-500 text-xs font-bold uppercase tracking-widest mt-4 md:mt-0">
+            A selection of our finest custom works across tattoos and body piercings.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+          {galleryImages.map((img, i) => (
+            <div key={i} className="overflow-hidden group aspect-[3/4] bg-zinc-900">
+              <img 
+                src={img} 
+                alt={`Gallery item ${i}`} 
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
+              />
+            </div>
+          ))}
+        </div>
+        
+        <div className="mt-16 flex justify-center">
+          <button className="px-12 py-4 border border-white/20 text-xs font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">
+            Explore Full Archive
+          </button>
+        </div>
       </div>
     </section>
   );

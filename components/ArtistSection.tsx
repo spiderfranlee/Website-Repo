@@ -4,7 +4,7 @@ import React from 'react';
 const ArtistSection: React.FC = () => {
   return (
     <section id="artists" className="py-0 bg-black min-h-[800px] flex items-stretch scroll-mt-32">
-      <div className="w-full grid lg:grid-cols-2">
+      <div className="w-full max-w-7xl mx-auto grid lg:grid-cols-2">
         {/* Left Side: Geometric Pattern Box with Charlie's Image */}
         <div className="relative min-h-[600px] bg-[#222] overflow-hidden flex items-center justify-center">
           {/* Geometric Circle Pattern Background */}

@@ -12,27 +12,29 @@ const studioImages = [
 const StudioSection: React.FC = () => {
   return (
     <section id="the-studio" className="py-24 px-8 lg:px-24 bg-black scroll-mt-32">
-      <div className="flex flex-col items-center mb-16 text-center">
-        <h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600 mb-4">Our Environment</h2>
-        <h3 className="text-4xl font-black uppercase tracking-tighter mb-6">The Studio</h3>
-        <div className="w-12 h-[2px] bg-white/20"></div>
-      </div>
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col items-center mb-16 text-center">
+          <h2 className="text-xs font-black uppercase tracking-[0.4em] text-red-600 mb-4">Our Environment</h2>
+          <h3 className="text-4xl font-black uppercase tracking-tighter mb-6">The Studio</h3>
+          <div className="w-12 h-[2px] bg-white/20"></div>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {studioImages.map((src, index) => (
-          <div 
-            key={index} 
-            className={`overflow-hidden rounded-2xl border border-white/5 bg-zinc-900 aspect-[4/3] group shadow-2xl ${
-              index === 1 ? 'lg:col-span-1 md:col-span-2 lg:row-span-1' : ''
-            }`}
-          >
-            <img 
-              src={src} 
-              alt={`Studio interior ${index + 1}`} 
-              className="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out"
-            />
-          </div>
-        ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {studioImages.map((src, index) => (
+            <div 
+              key={index} 
+              className={`overflow-hidden rounded-2xl border border-white/5 bg-zinc-900 aspect-[4/3] group shadow-2xl ${
+                index === 1 ? 'lg:col-span-1 md:col-span-2 lg:row-span-1' : ''
+              }`}
+            >
+              <img 
+                src={src} 
+                alt={`Studio interior ${index + 1}`} 
+                className="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
