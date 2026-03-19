@@ -35,7 +35,7 @@ const Hero: React.FC = () => {
 
   return (
     <>
-      <section className="relative min-h-screen w-full flex flex-col justify-center lg:justify-between px-8 lg:px-24 py-32 overflow-hidden bg-black">
+      <section className="relative min-h-screen w-full flex flex-col items-center justify-center px-8 lg:px-24 py-32 overflow-hidden bg-black">
         {/* Background Showreel Slider */}
         <div className="absolute inset-0 z-0">
           {showreelImages.map((img, idx) => (
@@ -50,50 +50,55 @@ const Hero: React.FC = () => {
               />
             </div>
           ))}
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/90" />
         </div>
 
-        {/* Hero Text Content */}
-        <div className="relative z-10 max-w-2xl mb-12 lg:mb-0 lg:pt-32">
-          <h2 className="text-4xl md:text-6xl font-medium leading-tight mb-8">
-            Custom Tattoo Designs.<br/>
-            Telling Your Story.
-          </h2>
+        {/* Hero Content Wrapper */}
+        <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center justify-center gap-12 lg:gap-16 mt-12 text-center">
           
-          <div className="flex flex-col gap-4">
-            <a href="#quote-form" className="group flex flex-col items-start gap-2">
-              <span className="text-lg font-bold hover:text-red-600 transition-colors uppercase tracking-widest">Request a Quote</span>
-              <div className="w-12 h-[2px] bg-white group-hover:w-20 group-hover:bg-red-600 transition-all duration-300"></div>
-            </a>
+          {/* Hero Text Content */}
+          <div className="flex flex-col items-center">
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-[1.1] mb-8 tracking-tighter">
+              Custom Tattoo Designs.<br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800">Telling Your Story.</span>
+            </h2>
+            
+            <div className="flex flex-col items-center gap-4">
+              <a href="#quote-form" className="group flex flex-col items-center gap-2">
+                <span className="text-lg font-bold hover:text-red-600 transition-colors uppercase tracking-widest">Request a Quote</span>
+                <div className="w-12 h-[2px] bg-white group-hover:w-20 group-hover:bg-red-600 transition-all duration-300"></div>
+              </a>
+            </div>
           </div>
-        </div>
 
-        {/* Play Showreel Box */}
-        <div className="relative z-20 self-end w-full max-w-[580px]">
-          <button 
-            onClick={() => setIsShowreelOpen(true)}
-            className="w-full glass px-8 py-8 md:px-10 md:py-10 flex items-center justify-between group cursor-pointer transition-all hover:bg-white/10 rounded-[2rem] shadow-2xl text-left"
-          >
-            <div className="flex items-center gap-6 md:gap-8">
-              <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/40 flex items-center justify-center transition-transform group-hover:scale-110">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 fill-white translate-x-[1px]" viewBox="0 0 24 24">
-                  <path d="M7 6v12l10-6z"/>
-                </svg>
+          {/* Play Showreel Box */}
+          <div className="w-full max-w-[580px]">
+            <button 
+              onClick={() => setIsShowreelOpen(true)}
+              className="w-full glass px-8 py-8 md:px-10 md:py-10 flex items-center justify-between group cursor-pointer transition-all hover:bg-white/10 rounded-[2rem] shadow-2xl text-left"
+            >
+              <div className="flex items-center gap-6 md:gap-8">
+                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/40 flex items-center justify-center transition-transform group-hover:scale-110">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 fill-white translate-x-[1px]" viewBox="0 0 24 24">
+                    <path d="M7 6v12l10-6z"/>
+                  </svg>
+                </div>
+                <span className="text-2xl md:text-3xl font-bold tracking-tight">Play Showreel</span>
               </div>
-              <span className="text-2xl md:text-3xl font-bold tracking-tight">Play Showreel</span>
-            </div>
-            <div className="hidden sm:block w-32 md:w-36 h-20 md:h-24 bg-zinc-800 rounded-xl overflow-hidden relative border border-white/20 shadow-xl group-hover:border-white/40 transition-colors">
-              {/* Gallery cycling thumbnail */}
-              <img 
-                src={galleryImages[galleryIndex]} 
-                alt="Gallery Cycle Thumbnail" 
-                className="w-full h-full object-cover grayscale opacity-70 group-hover:opacity-100 transition-all duration-700" 
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                <span className="text-[10px] font-black uppercase text-white tracking-[0.1em] drop-shadow-lg">GALLERY</span>
+              <div className="hidden sm:block w-32 md:w-36 h-20 md:h-24 bg-zinc-800 rounded-xl overflow-hidden relative border border-white/20 shadow-xl group-hover:border-white/40 transition-colors">
+                {/* Gallery cycling thumbnail */}
+                <img 
+                  src={galleryImages[galleryIndex]} 
+                  alt="Gallery Cycle Thumbnail" 
+                  className="w-full h-full object-cover grayscale opacity-70 group-hover:opacity-100 transition-all duration-700" 
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                  <span className="text-[10px] font-black uppercase text-white tracking-[0.1em] drop-shadow-lg">GALLERY</span>
+                </div>
               </div>
-            </div>
-          </button>
+            </button>
+          </div>
+          
         </div>
       </section>
 
